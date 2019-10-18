@@ -1,0 +1,100 @@
+import { Request, Response, NextFunction } from 'express'
+import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
+import UserInterface from '../../models/v1/users/user.interface.v1'
+
+class UserController {
+
+  private repository: UserRepositoryInterface
+
+  constructor(repository: UserRepositoryInterface) {
+    this.repository = repository
+  }
+
+  index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    try {
+      const users = await this.repository.find()
+      return res.send(users)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  findOne = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { id } = req.params
+
+    try {
+      const users = await this.repository.findOne(id)
+      return res.send(users)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  search = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { query } = req.query
+
+    try {
+      const users = await this.repository.find(query)
+      return res.send(users)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  store = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const user = <UserInterface>req.body
+    
+    try {
+      const newUser = await this.repository.store(user)
+      return res.send(newUser)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const user = <UserInterface>req.body
+
+    try {
+      const userUpdated = await this.repository.update(user)
+      return res.send(userUpdated)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  delete = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { id } = req.body
+
+    try {
+      await this.repository.delete(id)
+      return res.status(204).send()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  changePassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { currentPassword, newPassword } = req.body
+    
+    try {
+      await this.repository.changePassword(currentPassword, newPassword)
+      return res.status(204).send()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { email } = req.body
+    
+    try {
+      await this.repository.resetPassword(email)
+      return res.status(204).send()
+    } catch (error) {
+      next(error)
+    }
+  }
+}
+
+export default UserController
