@@ -1,1 +1,1 @@
-# api
+# API para o projeto de gestão de convidados do casamento
