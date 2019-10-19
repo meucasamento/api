@@ -12,10 +12,21 @@ class GuestController {
   }
 
   index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const data = req.body
+
+    try {
+      const guests = await this.repository.find(data)
+      return res.send(guests)
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  findOne = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { id } = req.params
 
     try {
-      const guests = await this.repository.find({ id })
+      const guests = await this.repository.findOne(id)
       return res.send(guests)
     } catch (error) {
       next(error)

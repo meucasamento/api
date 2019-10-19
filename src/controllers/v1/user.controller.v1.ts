@@ -11,8 +11,10 @@ class UserController {
   }
 
   index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const data = req.body
+
     try {
-      const users = await this.repository.find()
+      const users = await this.repository.find(data)
       return res.send(users)
     } catch (error) {
       next(error)
@@ -36,17 +38,6 @@ class UserController {
     try {
       const users = await this.repository.find(query)
       return res.send(users)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  store = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const user = <UserInterface>req.body
-    
-    try {
-      const newUser = await this.repository.store(user)
-      return res.send(newUser)
     } catch (error) {
       next(error)
     }
@@ -79,17 +70,6 @@ class UserController {
     
     try {
       await this.repository.changePassword(currentPassword, newPassword)
-      return res.status(204).send()
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { email } = req.body
-    
-    try {
-      await this.repository.resetPassword(email)
       return res.status(204).send()
     } catch (error) {
       next(error)
