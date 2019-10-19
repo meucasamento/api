@@ -39,7 +39,7 @@ class Routes {
       this.routes.get('/users', auth.checkToken, this.userController.index)
       this.routes.get('/users/:id', auth.checkToken, this.userController.findOne)
       this.routes.patch('/users', auth.checkToken, this.userController.update)
-      this.routes.patch('/users/change_password', this.userController.changePassword)
+      this.routes.patch('/users/change_password', auth.checkToken, this.userController.changePassword)
 
       // Guests
       this.routes.get('/guests', auth.checkToken, this.guestController.index)
