@@ -8,14 +8,14 @@ import NoValidDataException from './../../exceptions/noValidData.exception'
 export default class BaseRepository<T extends Document> implements ReadRepositoryInteface<T>, WriteRepositoryInterface<T> {
   private model: Model<T>
 
-  constructor(model: Model<T>) {
+  constructor (model: Model<T>) {
     this.model = model
   }
 
   async find (data?: string | number | object): Promise<[T]> {
     return new Promise(async (resolve, reject) => {
       try {
-        const result = await <[T]><any>this.model.find()
+        const result = await <[T]><unknown> this.model.find()
         resolve(result)
       } catch (error) {
         reject(new NoValidDataException(error.message))
@@ -23,7 +23,7 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     })
   }
 
-  async findOne (data: string | number | object): Promise<T> {
+  async findOne (id: string | number): Promise<T> {
     throw NotImplementedException
   }
 
@@ -31,7 +31,7 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     return new Promise(async (resolve, reject) => {
       try {
         const newData = await this.model.create(data)
-        resolve(newData) 
+        resolve(newData)
       } catch (error) {
         reject(new NoValidDataException(error.message))
       }

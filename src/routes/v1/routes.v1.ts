@@ -27,7 +27,7 @@ class Routes {
       this.setup()
     }
 
-    private setup() {
+    private setup () {
       // Session
       this.routes.post('/session/login', this.sessionController.login)
       this.routes.patch('/session/reset_password', this.sessionController.resetPassword)

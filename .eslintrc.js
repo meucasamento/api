@@ -21,7 +21,5 @@ module.exports = {
   "plugins": [
       "@typescript-eslint"
   ],
-  "rules": {
-    "no-empty-interface": false
-  }
+  "rules": {}
 };
