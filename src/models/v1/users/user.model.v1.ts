@@ -18,8 +18,10 @@ const UserScheme = new mongoose.Schema({
         type: String,
         required: true
     }
+}, {
+    timestamps: true
 })
 
-const UserModel = mongoose.model<UserInterface & mongoose.Document>('User', UserScheme)
+const UserModel = mongoose.model<UserInterface>('User', UserScheme)
 
 export default UserModel

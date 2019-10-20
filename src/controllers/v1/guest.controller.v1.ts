@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 
 import GuestInterface from './../../models/v1/guests/guest.interface.v1'
 import GuestRepositoryInterface from './../../repositories/guests/guestRepository.interface'
+import NotImplementedException from '../../exceptions/notImplemented.exception'
 
 class GuestController {
 

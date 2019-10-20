@@ -1,17 +1,25 @@
-// const mongoose = require('mongoose')
+import mongoose from 'mongoose'
+import GuestInterface from './guest.interface.v1'
 
-// const GuestScheme = new mongoose.Schema({
-//     name: {
-//         type: String,
-//         required: true
-//     },
-//     email: {
-//         type: String,
-//         isEmail: true
-//     },
-//     phone: String,
-//     isConfirmed: Boolean,
-//     isGroomsman: Boolean
-// })
+const GuestScheme = new mongoose.Schema({
+    name: {
+        type: String,
+        required: true,
+        unique: true
+    },
+    phone: String,
+    isConfirmed: {
+        type: Boolean,
+        default: false
+    },
+    isGodfather: {
+        type: Boolean,
+        default: false
+    }
+}, {
+    timestamps: true
+})
 
-// module.exports = mongoose.model('GuestScheme', GuestScheme)
+const GuestModel = mongoose.model<GuestInterface>('GuestModel', GuestScheme)
+
+export default GuestModel
