@@ -2,7 +2,7 @@ import { Request, Response } from 'express'
 
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
 import TokenManager from '../../utils/components/tokenManager'
-import config from '../../utils/config/config'
+import config from '../../config'
 import { NextFunction } from 'connect'
 
 class SessionController {

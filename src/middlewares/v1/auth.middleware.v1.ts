@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express'
-import config from '../../utils/config/config'
+import config from './../../config'
 import tokenHelper from '../../utils/components/tokenManager'
 import NoPermissionException from './../../exceptions/noPermission.exception'
 

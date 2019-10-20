@@ -1,15 +1,25 @@
-// const mongoose = require('mongoose');
+import mongoose from 'mongoose'
+import UserInterface from './user.interface.v1'
 
-// const UserScheme = new mongoose.Schema({
-//     name: {
-//         type: String,
-//         required: true
-//     },
-//     email: {
-//         type: String,
-//         isEmail: true
-//     },
-//     password: String
-// })
+const UserScheme = new mongoose.Schema({
+    _id: {
+        type: String
+    },
+    name: {
+        type: String,
+        required: true
+    },
+    email: {
+        type: String,
+        isEmail: true,
+        unique: true
+    },
+    password: {
+        type: String,
+        required: true
+    }
+})
 
-// module.exports = mongoose.model('User', UserScheme)
+const UserModel = mongoose.model<UserInterface & mongoose.Document>('User', UserScheme)
+
+export default UserModel

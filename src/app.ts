@@ -3,7 +3,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
-import config from './utils/config/config'
+import config from './config'
 
 import RepositoriesFactoryInteface from './factories/v1/repository.factory.interface.v1'
 import RoutesV1 from './routes/v1/routes.v1'
