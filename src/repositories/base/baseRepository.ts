@@ -13,12 +13,13 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
   }
 
   async find (data?: string | number | object): Promise<[T]> {
-    return new Promise((resolve, reject) => {
-      this.model.find().then((result: [T]) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const result = await <[T]><any>this.model.find()
         resolve(result)
-      }).catch((error: Error) => {
+      } catch (error) {
         reject(new NoValidDataException(error.message))
-      })
+      }
     })
   }
 
@@ -27,12 +28,13 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
   }
 
   store = async (data: T): Promise<T> => {
-    return new Promise((resolve, reject) => {
-      this.model.create(data).then((result: T) => {
-        resolve(result)
-      }).catch((error: Error) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const newData = await this.model.create(data)
+        resolve(newData) 
+      } catch (error) {
         reject(new NoValidDataException(error.message))
-      })
+      }
     })
   }
 
