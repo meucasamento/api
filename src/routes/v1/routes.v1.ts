@@ -45,7 +45,7 @@ class Routes {
       this.routes.get('/guests', auth.checkToken, this.guestController.index)
       this.routes.get('/guests/:id', auth.checkToken, this.guestController.findOne)
       this.routes.post('/guests', auth.checkToken, this.guestController.store)
-      this.routes.patch('/guests', auth.checkToken, this.guestController.update)
+      this.routes.patch('/guests/:id', auth.checkToken, this.guestController.update)
       this.routes.patch('/guests/:id/confirm', auth.checkToken, this.guestController.confirm)
       this.routes.delete('/guests/:id', auth.checkToken, this.guestController.delete)
     }

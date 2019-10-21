@@ -2,8 +2,6 @@ import { Document, Model } from 'mongoose'
 import WriteRepositoryInterface from './writeRepository.interface'
 import ReadRepositoryInteface from './readRepository.interface'
 
-import NotImplementedException from './../../exceptions/notImplemented.exception'
-
 export default class BaseRepository<T extends Document> implements ReadRepositoryInteface<T>, WriteRepositoryInterface<T> {
   private model: Model<T>
 
@@ -31,9 +29,9 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     })
   }
 
-  store = async (data: T): Promise<T> => {
+  store = async (object: T): Promise<T> => {
     return new Promise((resolve, reject) => {
-      this.model.create(data).then(result => {
+      this.model.create(object).then(result => {
         resolve(result)
       }).catch((error: Error) => {
         reject(error)
@@ -41,15 +39,21 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     })
   }
 
-  async update (data: T): Promise<T> {
-    throw NotImplementedException
+  async update (id: string, object: T): Promise<T> {
+    return new Promise((resolve, reject) => {
+      this.model.findByIdAndUpdate({ _id: id }, object, { new: true }).then(result => {
+        resolve(result)
+      }).catch(error => {
+        reject(error)
+      })
+    })
   }
 
   async delete (id: string): Promise<T> {
     return new Promise((resolve, reject) => {
-      this.model.deleteOne({ _id: id }).then((result) => {
-        reject(result)
-      }).catch((error: Error) => {
+      this.model.findByIdAndDelete(id).then(result => {
+        resolve(result)
+      }).catch(error => {
         reject(error)
       })
     })

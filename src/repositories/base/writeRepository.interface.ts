@@ -1,5 +1,5 @@
 export default interface WriteRepository<T> {
-    store(data: T): Promise<T>
-    update(data: T): Promise<T>
+    store(object: T): Promise<T>
+    update(id: string, object: T): Promise<T>
     delete(id: string): Promise<T>
 }
