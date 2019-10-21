@@ -2,14 +2,10 @@ import { NextFunction, Request, Response } from 'express'
 import ErrorException from './../../exceptions/error.exception'
 
 class ErrorMiddleware {
-  checkError (error: ErrorException, re: Request, res: Response, next: NextFunction): void {
+  checkError (error: Error | ErrorException, re: Request, res: Response, next: NextFunction): void {
     const message = error.message
-
-    if (message) {
-      res.status(error.status).send({ message })
-    }
-
-    res.status(error.status).send()
+    const status = (error as ErrorException).status || 500
+    res.status(status).send({ message })
   }
 }
 

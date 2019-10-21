@@ -3,7 +3,6 @@ import WriteRepositoryInterface from './writeRepository.interface'
 import ReadRepositoryInteface from './readRepository.interface'
 
 import NotImplementedException from './../../exceptions/notImplemented.exception'
-import ErrorException from './../../exceptions/error.exception'
 
 export default class BaseRepository<T extends Document> implements ReadRepositoryInteface<T>, WriteRepositoryInterface<T> {
   private model: Model<T>
@@ -12,18 +11,24 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     this.model = model
   }
 
-  async find (data?: string | number | object): Promise<[T]> {
+  async find (query?: object): Promise<[T]> {
     return new Promise((resolve, reject) => {
-      this.model.find().then((result: [T]) => {
+      this.model.find(query).then((result: [T]) => {
         resolve(result)
       }).catch((error: Error) => {
-        reject(new ErrorException(error.message))
+        reject(error)
       })
     })
   }
 
   async findOne (id: string | number): Promise<T> {
-    throw NotImplementedException
+    return new Promise((resolve, reject) => {
+      this.model.findOne({ _id: id }).then(result => {
+        resolve(result)
+      }).catch((error: Error) => {
+        reject(error)
+      })
+    })
   }
 
   store = async (data: T): Promise<T> => {
@@ -31,7 +36,7 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
       this.model.create(data).then(result => {
         resolve(result)
       }).catch((error: Error) => {
-        reject(new ErrorException(error.message))
+        reject(error)
       })
     })
   }
@@ -40,7 +45,13 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     throw NotImplementedException
   }
 
-  async delete (id: string): Promise<boolean> {
-    throw NotImplementedException
+  async delete (id: string): Promise<T> {
+    return new Promise((resolve, reject) => {
+      this.model.deleteOne({ _id: id }).then((result) => {
+        reject(result)
+      }).catch((error: Error) => {
+        reject(error)
+      })
+    })
   }
 }
