@@ -1,9 +1,9 @@
-import HTTPException from './http.exception'
+import ErrorException from './error.exception'
 
-class NoPermissionException extends HTTPException {
-    constructor() {
-        super(401, 'No Permission')
-    }
+class NoPermissionException extends ErrorException {
+  constructor () {
+    super('No Permission', 401)
+  }
 }
 
 export default new NoPermissionException()

@@ -1,9 +1,9 @@
-import HTTPException from './http.exception'
+import ErrorException from './error.exception'
 
-class NoValidDataException extends HTTPException {
-    constructor(message?: string) {
-        super(403, message || 'The server understood the request, but is refusing to fulfill it')
-    }
+class NoValidDataException extends ErrorException {
+  constructor (message?: string) {
+    super(message || 'The server understood the request, but is refusing to fulfill it', 403)
+  }
 }
 
 export default NoValidDataException

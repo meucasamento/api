@@ -1,9 +1,9 @@
-import HTTPException from './http.exception'
+import ErrorException from './error.exception'
 
-class NotFoundException extends HTTPException {
-    constructor() {
-        super(404, 'Not found')
-    }
+class NotFoundException extends ErrorException {
+  constructor () {
+    super('Not found', 404)
+  }
 }
 
 export default new NotFoundException()

@@ -3,13 +3,11 @@ import { Request, Response } from 'express'
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
 import TokenManager from '../../utils/components/tokenManager'
 import config from '../../config'
-import { NextFunction } from 'connect'
 
 class SessionController {
-
   private userRepository: UserRepositoryInterface
 
-  constructor(userRepository: UserRepositoryInterface) {
+  constructor (userRepository: UserRepositoryInterface) {
     this.userRepository = userRepository
   }
 

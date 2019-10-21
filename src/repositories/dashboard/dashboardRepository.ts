@@ -1,6 +1,6 @@
 import DashboardRepositoryInterface from './dashboardRepository.interface'
 import ReportInterface from '../../models/v1/dashboard/report.interface.v2'
-import HTTPException from './../../exceptions/http.exception'
+import ErrorException from '../../exceptions/error.exception'
 import GuestModel from './../../models/v1/guests/guest.model.v1'
 
 class DashboardRepository implements DashboardRepositoryInterface {
@@ -19,7 +19,7 @@ class DashboardRepository implements DashboardRepositoryInterface {
         }
         resolve(report)
       }).catch(error => {
-        reject(new HTTPException(500, error.message))
+        reject(new ErrorException(error.message))
       })
     })
   }

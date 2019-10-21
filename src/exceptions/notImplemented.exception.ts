@@ -1,9 +1,9 @@
-import HTTPException from './http.exception'
+import ErrorException from './error.exception'
 
-class NotImplemetedException extends HTTPException {
-    constructor() {
-        super(501, 'Method not implemented.')
-    }
+class NotImplemetedException extends ErrorException {
+  constructor () {
+    super('Method not implemented.', 501)
+  }
 }
 
 export default new NotImplemetedException()

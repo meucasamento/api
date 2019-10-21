@@ -1,14 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
-
-import GuestInterface from './../../models/v1/guests/guest.interface.v1'
 import GuestRepositoryInterface from './../../repositories/guests/guestRepository.interface'
-import NotImplementedException from '../../exceptions/notImplemented.exception'
 
 class GuestController {
-
   private repository: GuestRepositoryInterface
 
-  constructor(repository: GuestRepositoryInterface) {
+  constructor (repository: GuestRepositoryInterface) {
     this.repository = repository
   }
 
@@ -35,7 +31,7 @@ class GuestController {
   }
 
   store = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const guest = <GuestInterface>req.body
+    const guest = req.body
 
     try {
       const newGuest = await this.repository.store(guest)
@@ -46,7 +42,7 @@ class GuestController {
   }
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const user = <GuestInterface>req.body
+    const user = req.body
 
     try {
       const userUpdated = await this.repository.update(user)

@@ -1,12 +1,10 @@
 import { Request, Response, NextFunction } from 'express'
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
-import UserInterface from '../../models/v1/users/user.interface.v1'
 
 class UserController {
-
   private repository: UserRepositoryInterface
 
-  constructor(repository: UserRepositoryInterface) {
+  constructor (repository: UserRepositoryInterface) {
     this.repository = repository
   }
 
@@ -44,7 +42,7 @@ class UserController {
   }
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const user = <UserInterface>req.body
+    const user = req.body
 
     try {
       const userUpdated = await this.repository.update(user)
@@ -67,7 +65,7 @@ class UserController {
 
   changePassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { currentPassword, newPassword } = req.body
-    
+
     try {
       await this.repository.changePassword(currentPassword, newPassword)
       return res.status(204).send()

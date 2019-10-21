@@ -34,34 +34,34 @@ class App {
       this.express.use('/api/v1', this.routesV1.routes)
     }
 
-    private errorHandling(): void {
+    private errorHandling (): void {
       this.express.use(ErrorMiddleware.checkError)
     }
 
-    private connectToTheDatabase() {
+    private connectToTheDatabase () :void {
       mongoose.set('useCreateIndex', true)
-      
+
       mongoose.connect(config.mongoURL, {
-          useUnifiedTopology: true,
-          useNewUrlParser: true
-      })
-      
-      mongoose.connection.on('connected', function () {  
-        console.log(`Mongoose default connection open to ${config.mongoURL}`);
-      })
-      
-      mongoose.connection.on('error', function (err) {  
-        console.log(`Mongoose default connection error: ${err}`);
-      })
-      
-      mongoose.connection.on('disconnected', function () {  
-        console.log('Mongoose default connection disconnected'); 
+        useUnifiedTopology: true,
+        useNewUrlParser: true
       })
 
-      process.on('SIGINT', function() {  
-        mongoose.connection.close(function () { 
-          console.log('Mongoose default connection disconnected through app termination'); 
-          process.exit(0); 
+      mongoose.connection.on('connected', function () {
+        console.log(`Mongoose default connection open to ${config.mongoURL}`)
+      })
+
+      mongoose.connection.on('error', function (err) {
+        console.log(`Mongoose default connection error: ${err}`)
+      })
+
+      mongoose.connection.on('disconnected', function () {
+        console.log('Mongoose default connection disconnected')
+      })
+
+      process.on('SIGINT', function () {
+        mongoose.connection.close(function () {
+          console.log('Mongoose default connection disconnected through app termination')
+          process.exit(0)
         })
       })
     }

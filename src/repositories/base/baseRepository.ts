@@ -3,7 +3,7 @@ import WriteRepositoryInterface from './writeRepository.interface'
 import ReadRepositoryInteface from './readRepository.interface'
 
 import NotImplementedException from './../../exceptions/notImplemented.exception'
-import NoValidDataException from './../../exceptions/noValidData.exception'
+import ErrorException from './../../exceptions/error.exception'
 
 export default class BaseRepository<T extends Document> implements ReadRepositoryInteface<T>, WriteRepositoryInterface<T> {
   private model: Model<T>
@@ -13,13 +13,12 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
   }
 
   async find (data?: string | number | object): Promise<[T]> {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const result = await <[T]><unknown> this.model.find()
+    return new Promise((resolve, reject) => {
+      this.model.find().then((result: [T]) => {
         resolve(result)
-      } catch (error) {
-        reject(new NoValidDataException(error.message))
-      }
+      }).catch((error: Error) => {
+        reject(new ErrorException(error.message))
+      })
     })
   }
 
@@ -28,13 +27,12 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
   }
 
   store = async (data: T): Promise<T> => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const newData = await this.model.create(data)
-        resolve(newData)
-      } catch (error) {
-        reject(new NoValidDataException(error.message))
-      }
+    return new Promise((resolve, reject) => {
+      this.model.create(data).then(result => {
+        resolve(result)
+      }).catch((error: Error) => {
+        reject(new ErrorException(error.message))
+      })
     })
   }
 
