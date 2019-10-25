@@ -1,4 +1,5 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
+
 import UserInterface from './user.interface.v1'
 
 const UserScheme = new mongoose.Schema({
@@ -26,6 +27,6 @@ const UserScheme = new mongoose.Schema({
   timestamps: true
 })
 
-const UserModel = mongoose.model<UserInterface>('User', UserScheme)
+const UserModel = mongoose.model<UserInterface & Document>('User', UserScheme)
 
 export default UserModel

@@ -20,42 +20,18 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
   }
 
   async findOne (id: string | number): Promise<T> {
-    return new Promise((resolve, reject) => {
-      this.model.findOne({ _id: id }).then(result => {
-        resolve(result)
-      }).catch((error: Error) => {
-        reject(error)
-      })
-    })
+    return this.model.findOne({ _id: id })
   }
 
   store = async (object: T): Promise<T> => {
-    return new Promise((resolve, reject) => {
-      this.model.create(object).then(result => {
-        resolve(result)
-      }).catch((error: Error) => {
-        reject(error)
-      })
-    })
+    return this.model.create(object)
   }
 
   async update (id: string, object: T): Promise<T> {
-    return new Promise((resolve, reject) => {
-      this.model.findByIdAndUpdate({ _id: id }, object, { new: true }).then(result => {
-        resolve(result)
-      }).catch(error => {
-        reject(error)
-      })
-    })
+    return this.model.findByIdAndUpdate({ _id: id }, object, { new: true })
   }
 
   async delete (id: string): Promise<T> {
-    return new Promise((resolve, reject) => {
-      this.model.findByIdAndDelete(id).then(result => {
-        resolve(result)
-      }).catch(error => {
-        reject(error)
-      })
-    })
+    return this.model.findByIdAndDelete(id)
   }
 }

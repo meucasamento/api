@@ -36,18 +36,18 @@ class GuestController {
     try {
       const newGuest = await this.repository.store(guest)
       return res.send(newGuest)
-    } catch (error) {
-      next(error)
+    } catch (err) {
+      next(err)
     }
   }
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { id } = req.params
-    const user = req.body
+    const guest = req.body
 
     try {
-      const userUpdated = await this.repository.update(id, user)
-      return res.send(userUpdated)
+      const guestUpdated = await this.repository.update(id, guest)
+      return res.send(guestUpdated)
     } catch (error) {
       next(error)
     }

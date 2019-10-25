@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose, { Document } from 'mongoose'
 import GuestInterface from './guest.interface.v1'
 
 const GuestScheme = new mongoose.Schema({
@@ -24,6 +24,6 @@ const GuestScheme = new mongoose.Schema({
   timestamps: true
 })
 
-const GuestModel = mongoose.model<GuestInterface>('GuestModel', GuestScheme)
+const GuestModel = mongoose.model<GuestInterface & Document>('GuestModel', GuestScheme)
 
 export default GuestModel

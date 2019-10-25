@@ -1,6 +1,4 @@
-import { Document } from 'mongoose'
-
-export default interface UserInterface extends Document {
+export default interface UserInterface {
     id: string
     createdIn: number
     updatedIn: number

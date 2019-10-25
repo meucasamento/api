@@ -42,10 +42,11 @@ class UserController {
   }
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { id } = req.params
     const user = req.body
 
     try {
-      const userUpdated = await this.repository.update(user)
+      const userUpdated = await this.repository.update(id, user)
       return res.send(userUpdated)
     } catch (error) {
       next(error)

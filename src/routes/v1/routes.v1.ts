@@ -9,6 +9,8 @@ import DashboardController from './../../controllers/v1/dashboard.controller.v1'
 import UserController from '../../controllers/v1/user.controller.v1'
 import GuestController from '../../controllers/v1/guest.controller.v1'
 
+import GuestValidator from './../../validators/v1/guestRequest.validator.v1'
+
 class Routes {
     routes: Router
 
@@ -44,7 +46,7 @@ class Routes {
       // Guests
       this.routes.get('/guests', auth.checkToken, this.guestController.index)
       this.routes.get('/guests/:id', auth.checkToken, this.guestController.findOne)
-      this.routes.post('/guests', auth.checkToken, this.guestController.store)
+      this.routes.post('/guests', auth.checkToken, GuestValidator.store, this.guestController.store)
       this.routes.patch('/guests/:id', auth.checkToken, this.guestController.update)
       this.routes.patch('/guests/:id/confirm', auth.checkToken, this.guestController.confirm)
       this.routes.delete('/guests/:id', auth.checkToken, this.guestController.delete)

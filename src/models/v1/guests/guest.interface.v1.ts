@@ -1,6 +1,4 @@
-import { Document } from 'mongoose'
-
-export default interface GuestInterface extends Document {
+export default interface GuestInterface {
     id: string
     name: string
     phone?: string
