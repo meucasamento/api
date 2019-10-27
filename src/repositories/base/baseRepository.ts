@@ -19,8 +19,18 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     })
   }
 
-  async findOne (id: string | number): Promise<T> {
-    return this.model.findOne({ _id: id })
+  async findOne (query: object): Promise<T> {
+    return this.model.findOne(query)
+  }
+
+  async exists (query: object): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.findOne(query).then(() => {
+        resolve(true)
+      }).catch((error: Error) => {
+        reject(error)
+      })
+    })
   }
 
   store = async (object: T): Promise<T> => {

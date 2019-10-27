@@ -19,11 +19,15 @@ class Routes {
     private userController: UserController
     private guestController: GuestController
 
+    private guestValidator: GuestValidator
+
     constructor (repositoryFactory: RepositoryFactoryInterface) {
       this.sessionController = new SessionController(repositoryFactory.userRepository)
       this.dashboardController = new DashboardController(repositoryFactory.dashboardRepository)
       this.userController = new UserController(repositoryFactory.userRepository)
       this.guestController = new GuestController(repositoryFactory.guestRepository)
+
+      this.guestValidator = new GuestValidator(repositoryFactory.guestRepository)
 
       this.routes = Router()
       this.setup()
@@ -46,7 +50,7 @@ class Routes {
       // Guests
       this.routes.get('/guests', auth.checkToken, this.guestController.index)
       this.routes.get('/guests/:id', auth.checkToken, this.guestController.findOne)
-      this.routes.post('/guests', auth.checkToken, GuestValidator.store, this.guestController.store)
+      this.routes.post('/guests', auth.checkToken, this.guestValidator.store, this.guestController.store)
       this.routes.patch('/guests/:id', auth.checkToken, this.guestController.update)
       this.routes.patch('/guests/:id/confirm', auth.checkToken, this.guestController.confirm)
       this.routes.delete('/guests/:id', auth.checkToken, this.guestController.delete)
