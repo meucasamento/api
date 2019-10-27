@@ -25,8 +25,8 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
 
   async exists (query: object): Promise<boolean> {
     return new Promise((resolve, reject) => {
-      this.findOne(query).then(() => {
-        resolve(true)
+      this.findOne(query).then(result => {
+        resolve(result != null)
       }).catch((error: Error) => {
         reject(error)
       })

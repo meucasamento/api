@@ -21,6 +21,18 @@ class GuestRequestValidator extends RequestValidator {
           return Promise.reject(err)
         })
       }),
+    check('phone')
+      .optional()
+      .isString(),
+    check('isActive')
+      .optional()
+      .isBoolean(),
+    check('isConfirmed')
+      .optional()
+      .isBoolean(),
+    check('isGodfather')
+      .optional()
+      .isBoolean(),
     check('email')
       .optional()
       .isEmail().bail().withMessage('Deve conter um email válido')

@@ -24,7 +24,7 @@ class SessionController {
     return res.send()
   }
 
-  login = async (req: Request, res: Response): Promise<Response> => {
+  authentication = async (req: Request, res: Response): Promise<Response> => {
     const { username, password } = req.body
 
     if (username === 'dev' && password === '123') {
