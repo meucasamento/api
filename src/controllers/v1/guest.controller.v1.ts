@@ -23,7 +23,7 @@ class GuestController {
     const { id } = req.params
 
     try {
-      const guests = await this.repository.findOne(id)
+      const guests = await this.repository.findOne({ _id: id })
       return res.send(guests)
     } catch (error) {
       next(error)
