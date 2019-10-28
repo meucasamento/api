@@ -9,8 +9,8 @@ class DashboardRepository implements DashboardRepositoryInterface {
 
       const totalGuests = result.length
       const totalGodparents = result.filter(guest => { return guest.isGodfather }).length
-      const totalDelivered = result.filter(guest => { return guest.isConfirmed }).length
-      const totalUndelivered = result.filter(guest => { return !guest.isConfirmed }).length
+      const totalDelivered = result.filter(guest => { return guest.invitationDelivered }).length
+      const totalUndelivered = result.filter(guest => { return !guest.invitationDelivered }).length
       const report = {
         guests: totalGuests,
         godparents: totalGodparents,

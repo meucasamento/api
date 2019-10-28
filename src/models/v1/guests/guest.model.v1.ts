@@ -8,7 +8,8 @@ const GuestScheme = new mongoose.Schema({
     unique: true
   },
   phone: String,
-  isConfirmed: {
+  email: String,
+  invitationDelivered: {
     type: Boolean,
     default: false
   },

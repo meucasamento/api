@@ -61,7 +61,7 @@ class GuestRequestValidator extends RequestValidator {
 
   update = this.store
 
-  confirm = [
+  invitation = [
     param('id')
       .exists().withMessage('O campo id é obrigatório')
       .custom(id => {

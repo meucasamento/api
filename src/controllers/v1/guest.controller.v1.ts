@@ -64,12 +64,12 @@ class GuestController {
     }
   }
 
-  confirm = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+  invitation = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { id } = req.params
     const { status } = req.body
 
     try {
-      const guest = await this.repository.confirm(id, status)
+      const guest = await this.repository.invitation(id, status)
       return res.send(guest)
     } catch (error) {
       next(error)

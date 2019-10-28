@@ -52,7 +52,7 @@ class Routes {
       this.routes.get('/guests/:id', auth.checkToken, this.guestValidator.findOne, this.guestController.findOne)
       this.routes.post('/guests', auth.checkToken, this.guestValidator.store, this.guestController.store)
       this.routes.patch('/guests/:id', auth.checkToken, this.guestValidator.update, this.guestController.update)
-      this.routes.patch('/guests/:id/confirm', auth.checkToken, this.guestValidator.confirm, this.guestController.confirm)
+      this.routes.patch('/guests/:id/invitation', auth.checkToken, this.guestValidator.invitation, this.guestController.invitation)
       this.routes.delete('/guests/:id', auth.checkToken, this.guestValidator.delete, this.guestController.delete)
     }
 }

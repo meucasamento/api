@@ -6,6 +6,6 @@ export default interface GuestInterface {
     createdIn: number
     updatedIn: number
     isActive?: boolean
-    isConfirmed?: boolean
+    invitationDelivered?: boolean
     isGodfather?: boolean
 }
