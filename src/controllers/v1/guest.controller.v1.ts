@@ -10,8 +10,8 @@ class GuestController {
 
   index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const data = req.body
-    const page = parseInt(req.query.page) || 1
-    const limit = parseInt(req.query.limit) || 10
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
 
     try {
       const guests = await this.repository.find(data, page, limit)
