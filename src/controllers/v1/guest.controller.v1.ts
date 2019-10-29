@@ -10,9 +10,11 @@ class GuestController {
 
   index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const data = req.body
+    const page = parseInt(req.query.page) || 1
+    const limit = parseInt(req.query.limit) || 10
 
     try {
-      const guests = await this.repository.find(data)
+      const guests = await this.repository.find(data, page, limit)
       return res.send(guests)
     } catch (error) {
       next(error)

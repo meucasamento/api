@@ -9,9 +9,17 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     this.model = model
   }
 
-  find = async (query?: object): Promise<[T]> => {
+  find = async (query?: object, page?: number, limit?: number): Promise<[T]> => {
+    const options = {
+      page: page || 1,
+      limit: limit || 10
+    }
+
     try {
-      const itens = await this.model.find(query) as [T]
+      const itens = await this.model
+        .find(query)
+        .skip((options.page - 1) * options.limit)
+        .limit(options.limit) as [T]
       return Promise.resolve(itens)
     } catch (err) {
       return Promise.reject(err)
@@ -35,7 +43,7 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     return this.model.create(object)
   }
 
-  update = async (id: string, data: unknown): Promise<T> => {
+  update = async (id: string, data: object): Promise<T> => {
     return this.model.findByIdAndUpdate({ _id: id }, data, { new: true })
   }
 
