@@ -1,10 +1,8 @@
-import { Request, Response } from 'express'
+import { Request, Response, NextFunction } from 'express'
 import EmailAlreadyExistsException from './../../exceptions/emailAlreadyExists.exception'
 
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
 import TokenManager from '../../utils/components/tokenManager'
-import config from '../../config'
-import { NextFunction } from 'connect'
 
 class SessionController {
   private userRepository: UserRepositoryInterface
@@ -15,7 +13,7 @@ class SessionController {
 
   registration = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { email } = req.body
-    const hasExists = (await this.userRepository.find({ email })).length > 0
+    const hasExists = (await this.userRepository.find({ email }))
 
     if (hasExists) {
       next(new EmailAlreadyExistsException(email))
@@ -25,11 +23,12 @@ class SessionController {
   }
 
   authentication = async (req: Request, res: Response): Promise<Response> => {
-    const { username, password } = req.body
+    const { email, password } = req.body
+    const user = await this.userRepository.findOne({ email, password })
 
-    if (username === 'dev' && password === '123') {
-      const token = TokenManager.sign({ username }, config.secret, config.tokenExpireTime)
-      return res.send({ token: token, expiresIn: config.tokenExpireTime })
+    if (user) {
+      const data = TokenManager.sign({ id: user._id })
+      return res.send(data)
     } else {
       return res.status(401).send()
     }

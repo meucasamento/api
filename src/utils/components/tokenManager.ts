@@ -1,17 +1,30 @@
 import jwt from 'jsonwebtoken'
+import config from './../../config'
+
+interface TokenPayloadInterface {
+  id: string
+}
+
+interface TokenResponseInterface {
+  token: string,
+  expiresIn: number
+}
 
 class TokenManager {
-  verify (
-    token: string,
-    secret: string): object | string {
-    return jwt.verify(token, secret)
+  verify (token: string): TokenPayloadInterface {
+    const secret = config.secret
+    const data = jwt.verify(token, secret)
+    return data as TokenPayloadInterface
   }
 
-  sign (payload: string | Buffer | object, secret: string, expiresIn: string | number = '1h'): string {
-    return jwt.sign(payload, secret, {
-      expiresIn,
+  sign (object: TokenPayloadInterface): TokenResponseInterface {
+    const expiresIn = config.tokenExpireTime
+    const secret = config.secret
+    const token = jwt.sign(object, secret, {
+      expiresIn: expiresIn,
       algorithm: 'HS512'
     })
+    return { token, expiresIn }
   }
 }
 

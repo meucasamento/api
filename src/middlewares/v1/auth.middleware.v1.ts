@@ -4,7 +4,7 @@ import tokenHelper from '../../utils/components/tokenManager'
 import NoPermissionException from './../../exceptions/noPermission.exception'
 
 class AuthMiddleware {
-  public async checkToken (req: Request, res: Response, next: NextFunction) {
+  public async checkToken (req: Request, res: Response, next: NextFunction): Promise<void> {
     let token = req.headers.authorization
 
     if (!token) {
@@ -16,8 +16,7 @@ class AuthMiddleware {
     }
 
     try {
-      const payload = tokenHelper.verify(token, config.secret)
-      console.log(payload)
+      tokenHelper.verify(token)
       next()
     } catch {
       next(NoPermissionException)

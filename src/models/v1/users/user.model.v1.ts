@@ -19,10 +19,6 @@ const UserScheme = new Schema({
   password: {
     type: String,
     required: true
-  },
-  isGodfather: {
-    type: Boolean,
-    default: false
   }
 }, {
   timestamps: true

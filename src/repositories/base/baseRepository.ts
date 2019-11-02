@@ -1,10 +1,19 @@
 import { Document, PaginateModel } from 'mongoose'
 import WriteRepositoryInterface from './writeRepository.interface'
 import ReadRepositoryInteface from './readRepository.interface'
-import PaginateResultInterface from './paginateResult.interface'
+
+interface PaginateResultInterface<T> {
+  items: T[]
+  pagination: {
+    total: number
+    limit: number
+    page?: number
+    pages?: number
+  }
+}
 
 export default class BaseRepository<T extends Document> implements ReadRepositoryInteface<T>, WriteRepositoryInterface<T> {
-  private model: PaginateModel<T>
+  protected model: PaginateModel<T>
 
   constructor (model: PaginateModel<T>) {
     this.model = model
