@@ -1,28 +1,20 @@
 import { Document, PaginateModel } from 'mongoose'
 import WriteRepositoryInterface from './writeRepository.interface'
-import ReadRepositoryInteface from './readRepository.interface'
+import ReadRepositoryInterface from './readRepository.interface'
+import PaginateResultInterface from './paginateResult.interface'
 
-interface PaginateResultInterface<T> {
-  items: T[]
-  pagination: {
-    total: number
-    limit: number
-    page?: number
-    pages?: number
-  }
-}
-
-export default class BaseRepository<T extends Document> implements ReadRepositoryInteface<T>, WriteRepositoryInterface<T> {
+export default class BaseRepository<T extends Document> implements ReadRepositoryInterface<T>, WriteRepositoryInterface<T> {
   protected model: PaginateModel<T>
 
   constructor (model: PaginateModel<T>) {
     this.model = model
   }
 
-  find = async (query?: object, page?: number, limit?: number): Promise<PaginateResultInterface<T>> => {
+  find = async (query?: object, page?: number, limit?: number, projection?: object | string): Promise<PaginateResultInterface<T>> => {
     const options = {
       page: page || 1,
-      limit: limit || 10
+      limit: limit || 10,
+      populate: projection
     }
 
     try {
@@ -42,8 +34,8 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     }
   }
 
-  findOne = async (query: object): Promise<T> => {
-    return this.model.findOne(query)
+  findOne = async (query: object, projection?: object | string): Promise<T> => {
+    return this.model.findOne(query, projection)
   }
 
   exists = async (query: object): Promise<boolean> => {
