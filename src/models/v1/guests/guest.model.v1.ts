@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, PaginateModel } from 'mongoose'
 import GuestInterface from './guest.interface.v1'
 import mongoosePaginate from 'mongoose-paginate-v2'
 
@@ -28,6 +28,6 @@ const GuestScheme = new Schema({
 
 GuestScheme.plugin(mongoosePaginate)
 
-const GuestModel = model<GuestInterface>('GuestModel', GuestScheme)
+const GuestModel = model<GuestInterface>('GuestModel', GuestScheme) as PaginateModel<GuestInterface>
 
 export default GuestModel

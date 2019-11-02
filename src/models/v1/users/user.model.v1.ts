@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import { Schema, model, PaginateModel } from 'mongoose'
 import mongoosePaginate from 'mongoose-paginate-v2'
 
 import UserInterface from './user.interface.v1'
@@ -30,6 +30,6 @@ const UserScheme = new Schema({
 
 UserScheme.plugin(mongoosePaginate)
 
-const UserModel = model<UserInterface>('User', UserScheme)
+const UserModel = model<UserInterface>('User', UserScheme) as PaginateModel<UserInterface>
 
 export default UserModel
