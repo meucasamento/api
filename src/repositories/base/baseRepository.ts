@@ -17,7 +17,17 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     }
 
     try {
-      return Promise.resolve(await this.model.paginate(query, options))
+      const { docs, totalDocs, limit, totalPages, page } = await this.model.paginate(query, options)
+      const result = {
+        items: docs,
+        pagination: {
+          total: totalDocs,
+          limit: limit,
+          page: page,
+          pages: totalPages
+        }
+      } as PaginateResultInterface<T>
+      return Promise.resolve(result)
     } catch (err) {
       return Promise.reject(err)
     }
