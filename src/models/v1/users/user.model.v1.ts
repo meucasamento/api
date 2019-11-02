@@ -1,8 +1,9 @@
-import mongoose, { Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
 import UserInterface from './user.interface.v1'
 
-const UserScheme = new mongoose.Schema({
+const UserScheme = new Schema({
   _id: {
     type: String
   },
@@ -27,6 +28,8 @@ const UserScheme = new mongoose.Schema({
   timestamps: true
 })
 
-const UserModel = mongoose.model<UserInterface & Document>('User', UserScheme)
+UserScheme.plugin(mongoosePaginate)
+
+const UserModel = model<UserInterface>('User', UserScheme)
 
 export default UserModel

@@ -1,7 +1,8 @@
-import mongoose, { Document } from 'mongoose'
+import { Schema, model } from 'mongoose'
 import GuestInterface from './guest.interface.v1'
+import mongoosePaginate from 'mongoose-paginate-v2'
 
-const GuestScheme = new mongoose.Schema({
+const GuestScheme = new Schema({
   name: {
     type: String,
     required: true,
@@ -25,6 +26,8 @@ const GuestScheme = new mongoose.Schema({
   timestamps: true
 })
 
-const GuestModel = mongoose.model<GuestInterface & Document>('GuestModel', GuestScheme)
+GuestScheme.plugin(mongoosePaginate)
+
+const GuestModel = model<GuestInterface>('GuestModel', GuestScheme)
 
 export default GuestModel
