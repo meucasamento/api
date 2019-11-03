@@ -37,6 +37,7 @@ class Routes {
       // Session
       this.routes.post('/session/authentication', this.sessionController.authentication)
       this.routes.patch('/session/reset_password', this.sessionController.resetPassword)
+      this.routes.post('/session/register', this.sessionController.register)
 
       // Dashboard
       this.routes.get('/dashboard/report', auth.checkToken, this.dashboardController.report)

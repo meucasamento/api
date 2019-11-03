@@ -4,9 +4,6 @@ import mongoosePaginate from 'mongoose-paginate-v2'
 import UserInterface from './user.interface.v1'
 
 const UserScheme = new Schema({
-  _id: {
-    type: String
-  },
   name: {
     type: String,
     required: true

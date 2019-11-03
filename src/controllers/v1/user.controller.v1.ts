@@ -23,8 +23,8 @@ class UserController {
     const { id } = req.params
 
     try {
-      const users = await this.repository.findOne({ _id: id })
-      return res.send(users)
+      const user = await this.repository.findOne({ _id: id })
+      return res.send(user)
     } catch (error) {
       next(error)
     }

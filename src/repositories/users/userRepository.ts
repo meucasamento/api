@@ -10,7 +10,7 @@ class UserRepository extends BaseRepository<UserInterface & Document> implements
     super(UserModel)
   }
 
-  async changePassword (currentPassword: string, newPassword: string): Promise<boolean> {
+  changePassword = async (currentPassword: string, newPassword: string): Promise<boolean> => {
     throw NotImplementedException
   }
 }

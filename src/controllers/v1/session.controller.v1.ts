@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express'
-import EmailAlreadyExistsException from './../../exceptions/emailAlreadyExists.exception'
 
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
 import TokenManager from '../../utils/components/tokenManager'
+import UserInterface from '../../models/v1/users/user.interface.v1'
 
 class SessionController {
   private userRepository: UserRepositoryInterface
@@ -11,15 +11,15 @@ class SessionController {
     this.userRepository = userRepository
   }
 
-  registration = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { email } = req.body
-    const hasExists = (await this.userRepository.find({ email }))
+  register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const userData = req.body as UserInterface
 
-    if (hasExists) {
-      next(new EmailAlreadyExistsException(email))
+    try {
+      const user = await this.userRepository.store(userData)
+      return res.send(user)
+    } catch (error) {
+      next(error)
     }
-
-    return res.send()
   }
 
   authentication = async (req: Request, res: Response): Promise<Response> => {
