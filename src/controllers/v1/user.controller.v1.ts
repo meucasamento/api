@@ -10,9 +10,11 @@ class UserController {
 
   index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const data = req.body
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
 
     try {
-      const users = await this.repository.find(data)
+      const users = await this.repository.find(data, page, limit)
       return res.send(users)
     } catch (error) {
       next(error)
