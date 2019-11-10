@@ -34,8 +34,8 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     }
   }
 
-  findOne = async (query: object, projection?: object | string): Promise<T> => {
-    return this.model.findOne(query, projection)
+  findOne = async (query: object, select?: object | string, projection?: object | string): Promise<T> => {
+    return this.model.findOne(query, projection).select(select)
   }
 
   exists = async (query: object): Promise<boolean> => {

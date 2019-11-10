@@ -11,7 +11,10 @@ const UserScheme = new Schema({
   email: {
     type: String,
     isEmail: true,
-    unique: true
+    unique: true,
+    createIndexes: {
+      unique: true
+    }
   },
   password: {
     type: String,
