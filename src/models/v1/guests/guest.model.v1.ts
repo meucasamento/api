@@ -28,6 +28,6 @@ const GuestScheme = new Schema({
 
 GuestScheme.plugin(mongoosePaginate)
 
-const GuestModel = model<GuestInterface>('GuestModel', GuestScheme) as PaginateModel<GuestInterface>
+const GuestModel = model<GuestInterface>('Guest', GuestScheme) as PaginateModel<GuestInterface>
 
 export default GuestModel

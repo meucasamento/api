@@ -28,9 +28,9 @@ class SessionController {
 
     try {
       const user = await this.userRepository.findOne({ email }, '+password')
-      await Encryption.compare(password, user.password)
+      const mathPassword = await Encryption.compare(password, user.password)
 
-      if (user) {
+      if (mathPassword) {
         const data = TokenManager.sign({ id: user._id })
         return res.send(data)
       } else {

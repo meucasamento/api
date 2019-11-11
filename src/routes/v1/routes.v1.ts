@@ -40,21 +40,24 @@ class Routes {
       this.routes.post('/session/register', this.sessionController.register)
 
       // Dashboard
-      this.routes.get('/dashboard/report', auth.checkToken, this.dashboardController.report)
+      this.routes.use('/dashboard', auth.checkToken)
+      this.routes.get('/dashboard/report', this.dashboardController.report)
 
       // Users
-      this.routes.get('/users', auth.checkToken, this.userController.index)
-      this.routes.get('/users/:id', auth.checkToken, this.userController.findOne)
-      this.routes.patch('/users', auth.checkToken, this.userController.update)
-      this.routes.patch('/users/change_password', auth.checkToken, this.userController.changePassword)
+      this.routes.use('/users', auth.checkToken)
+      this.routes.get('/users', this.userController.index)
+      this.routes.get('/users/:id', this.userController.findOne)
+      this.routes.patch('/users', this.userController.update)
+      this.routes.patch('/users/change_password', this.userController.changePassword)
 
       // Guests
-      this.routes.get('/guests', auth.checkToken, this.guestController.index)
-      this.routes.get('/guests/:id', auth.checkToken, this.guestValidator.findOne, this.guestController.findOne)
-      this.routes.post('/guests', auth.checkToken, this.guestValidator.store, this.guestController.store)
-      this.routes.patch('/guests/:id', auth.checkToken, this.guestValidator.update, this.guestController.update)
-      this.routes.patch('/guests/:id/invitation', auth.checkToken, this.guestValidator.invitation, this.guestController.invitation)
-      this.routes.delete('/guests/:id', auth.checkToken, this.guestValidator.delete, this.guestController.delete)
+      this.routes.use('/guests', auth.checkToken)
+      this.routes.get('/guests', this.guestController.index)
+      this.routes.get('/guests/:id', this.guestValidator.findOne, this.guestValidator.validate, this.guestController.findOne)
+      this.routes.post('/guests', /* this.guestValidator.store, */ this.guestController.store)
+      this.routes.patch('/guests/:id', /* this.guestValidator.update, */ this.guestController.update)
+      this.routes.patch('/guests/:id/invitation', this.guestValidator.invitation, this.guestValidator.validate, this.guestController.invitation)
+      this.routes.delete('/guests/:id', this.guestValidator.delete, this.guestValidator.validate, this.guestController.delete)
     }
 }
 

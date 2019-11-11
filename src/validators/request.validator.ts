@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express'
 import { ValidationError, validationResult, Result } from 'express-validator'
 
 export default abstract class RequestValidator {
-  protected validate = (req: Request, res: Response, next: NextFunction): void => {
+  validate = (req: Request, res: Response, next: NextFunction): void => {
     const errors: Result<ValidationError> = validationResult(req)
 
     if (!errors.isEmpty()) {
