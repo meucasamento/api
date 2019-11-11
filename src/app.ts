@@ -31,7 +31,7 @@ class App {
     }
 
     private routes (): void {
-      this.express.use('/api/v1', this.routesV1.routes)
+      this.express.use('/api/v1', this.routesV1.router)
     }
 
     private errorHandling (): void {
