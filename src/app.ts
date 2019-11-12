@@ -6,16 +6,17 @@ import mongoose from 'mongoose'
 import config from './config'
 
 import RepositoriesFactoryInteface from './factories/v1/repository.factory.interface.v1'
-import RoutesV1 from './routes/v1/routes.v1'
+import RoutesV1 from './routes/v1/router.v1'
 import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
+import RouterInterface from './routes/router.interface'
 
 class App {
     public express: express.Application
 
-    private routesV1: RoutesV1
+    private routerV1: RouterInterface
 
     constructor (repositoriesFactory: RepositoriesFactoryInteface) {
-      this.routesV1 = new RoutesV1(repositoriesFactory)
+      this.routerV1 = new RoutesV1(repositoriesFactory)
       this.express = express()
       this.middlewares()
       this.routes()
@@ -31,7 +32,7 @@ class App {
     }
 
     private routes (): void {
-      this.express.use('/api/v1', this.routesV1.router)
+      this.express.use('/api/v1', this.routerV1.router)
     }
 
     private errorHandling (): void {

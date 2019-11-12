@@ -1,14 +1,13 @@
-import { Router } from 'express'
+import RouterInterface from './../router.interface'
 import DashboardController from '../../controllers/v1/dashboard.controller.v1'
 import DashboardRepositoryInterface from '../../repositories/dashboard/dashboardRepository.interface'
 import auth from './../../middlewares/v1/auth.middleware.v1'
 
-class DashboardRoutes {
-    readonly router = Router()
-
+class DashboardRoutes extends RouterInterface {
     private controller: DashboardController
 
     constructor (repository: DashboardRepositoryInterface) {
+      super()
       this.controller = new DashboardController(repository)
       this.setup()
     }

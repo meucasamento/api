@@ -1,12 +1,12 @@
+import RouterInterface from './../router.interface'
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 import SessionController from '../../controllers/v1/session.controller.v1'
-import { Router } from 'express'
 
-class SessionRoutes {
-    readonly router = Router()
+class SessionRoutes extends RouterInterface {
     private controller: SessionController
 
     constructor (repository: UserRepositoryInterface) {
+      super()
       this.controller = new SessionController(repository)
       this.setup()
     }
