@@ -1,7 +1,7 @@
 import GuestRepositoryInterface from '../../repositories/guests/guestRepository.interface'
 import RouterInterface from '../router.interface'
 import GuestController from '../../controllers/v1/guest.controller.v1'
-import auth from '../../middlewares/v1/auth.middleware.v1'
+import Auth from '../../middlewares/v1/auth.middleware.v1'
 import GuestRequestValidator from '../../validators/v1/guestRequest.validator.v1'
 
 class GuestRouter extends RouterInterface {
@@ -16,7 +16,7 @@ class GuestRouter extends RouterInterface {
   }
 
   private setup = (): void => {
-    this.router.use('/guests', auth.checkToken)
+    this.router.use('/guests', Auth.checkToken)
     this.router.get('/guests', this.controller.index)
     this.router.get('/guests/:id', this.validator.findOne, this.validator.validate, this.controller.findOne)
     this.router.post('/guests', this.controller.store)

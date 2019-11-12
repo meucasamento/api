@@ -1,9 +1,9 @@
 import RouterInterface from '../router.interface'
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 import UserController from '../../controllers/v1/user.controller.v1'
-import auth from '../../middlewares/v1/auth.middleware.v1'
+import Auth from '../../middlewares/v1/auth.middleware.v1'
 
-class UserRouter extends RouterInterface {
+class UserRoutes extends RouterInterface {
     private controller: UserController
 
     constructor (repository: UserRepositoryInterface) {
@@ -13,7 +13,7 @@ class UserRouter extends RouterInterface {
     }
 
     private setup = (): void => {
-      this.router.use('/users', auth.checkToken)
+      this.router.use('/users', Auth.checkToken)
       this.router.get('/users', this.controller.index)
       this.router.get('/users/:id', this.controller.findOne)
       this.router.patch('/users', this.controller.update)
@@ -21,4 +21,4 @@ class UserRouter extends RouterInterface {
     }
 }
 
-export default UserRouter
+export default UserRoutes

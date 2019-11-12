@@ -1,7 +1,7 @@
 import RouterInterface from '../router.interface'
 import DashboardController from '../../controllers/v1/dashboard.controller.v1'
 import DashboardRepositoryInterface from '../../repositories/dashboard/dashboardRepository.interface'
-import auth from '../../middlewares/v1/auth.middleware.v1'
+import Auth from '../../middlewares/v1/auth.middleware.v1'
 
 class DashboardRouter extends RouterInterface {
     private controller: DashboardController
@@ -13,7 +13,7 @@ class DashboardRouter extends RouterInterface {
     }
 
     private setup = (): void => {
-      this.router.use('/dashboard', auth.checkToken)
+      this.router.use('/dashboard', Auth.checkToken)
       this.router.get('/dashboard/report', this.controller.report)
     }
 }
