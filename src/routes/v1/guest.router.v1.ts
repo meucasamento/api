@@ -1,10 +1,10 @@
 import GuestRepositoryInterface from '../../repositories/guests/guestRepository.interface'
-import RouterInterface from './../router.interface'
+import RouterInterface from '../router.interface'
 import GuestController from '../../controllers/v1/guest.controller.v1'
 import auth from '../../middlewares/v1/auth.middleware.v1'
-import GuestRequestValidator from './../../validators/v1/guestRequest.validator.v1'
+import GuestRequestValidator from '../../validators/v1/guestRequest.validator.v1'
 
-class GuestRoutes extends RouterInterface {
+class GuestRouter extends RouterInterface {
   private controller: GuestController
   private validator: GuestRequestValidator
 
@@ -26,4 +26,4 @@ class GuestRoutes extends RouterInterface {
   }
 }
 
-export default GuestRoutes
+export default GuestRouter

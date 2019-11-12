@@ -1,9 +1,9 @@
-import RouterInterface from './../router.interface'
+import RouterInterface from '../router.interface'
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 import UserController from '../../controllers/v1/user.controller.v1'
 import auth from '../../middlewares/v1/auth.middleware.v1'
 
-class UserRoutes extends RouterInterface {
+class UserRouter extends RouterInterface {
     private controller: UserController
 
     constructor (repository: UserRepositoryInterface) {
@@ -21,4 +21,4 @@ class UserRoutes extends RouterInterface {
     }
 }
 
-export default UserRoutes
+export default UserRouter

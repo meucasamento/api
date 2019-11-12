@@ -1,9 +1,9 @@
-import RouterInterface from './../router.interface'
+import RouterInterface from '../router.interface'
 import DashboardController from '../../controllers/v1/dashboard.controller.v1'
 import DashboardRepositoryInterface from '../../repositories/dashboard/dashboardRepository.interface'
-import auth from './../../middlewares/v1/auth.middleware.v1'
+import auth from '../../middlewares/v1/auth.middleware.v1'
 
-class DashboardRoutes extends RouterInterface {
+class DashboardRouter extends RouterInterface {
     private controller: DashboardController
 
     constructor (repository: DashboardRepositoryInterface) {
@@ -18,4 +18,4 @@ class DashboardRoutes extends RouterInterface {
     }
 }
 
-export default DashboardRoutes
+export default DashboardRouter

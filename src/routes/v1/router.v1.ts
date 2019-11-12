@@ -1,27 +1,27 @@
 import RepositoryFactoryInterface from '../../factories/v1/repository.factory.interface.v1'
 import RouterInterface from '../router.interface'
 
-import UserRoutes from './user.routes.v1'
-import GuestRoutes from './guest.routes.v1'
-import DashboardRoutes from './dashboard.routes.v1'
-import SessionRoutes from './session.routes.v1'
+import UserRouter from './user.router.v1'
+import GuestRouter from './guest.router.v1'
+import DashboardRouter from './dashboard.router.v1'
+import SessionRoutes from './session.router.v1'
 
 class RouterV1 extends RouterInterface {
-    private routes: RouterInterface[]
+    private routers: RouterInterface[]
 
     constructor (repositoryFactory: RepositoryFactoryInterface) {
       super()
-      this.routes = [
-        new UserRoutes(repositoryFactory.userRepository),
-        new GuestRoutes(repositoryFactory.guestRepository),
-        new DashboardRoutes(repositoryFactory.dashboardRepository),
+      this.routers = [
+        new UserRouter(repositoryFactory.userRepository),
+        new GuestRouter(repositoryFactory.guestRepository),
+        new DashboardRouter(repositoryFactory.dashboardRepository),
         new SessionRoutes(repositoryFactory.userRepository)
       ]
       this.setup()
     }
 
     private setup (): void {
-      this.routes.forEach(item => {
+      this.routers.forEach(item => {
         this.router.use(item.router)
       })
     }

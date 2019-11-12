@@ -1,8 +1,8 @@
-import RouterInterface from './../router.interface'
+import RouterInterface from '../router.interface'
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 import SessionController from '../../controllers/v1/session.controller.v1'
 
-class SessionRoutes extends RouterInterface {
+class SessionRouter extends RouterInterface {
     private controller: SessionController
 
     constructor (repository: UserRepositoryInterface) {
@@ -18,4 +18,4 @@ class SessionRoutes extends RouterInterface {
     }
 }
 
-export default SessionRoutes
+export default SessionRouter
