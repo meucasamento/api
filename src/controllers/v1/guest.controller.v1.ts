@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import GuestRepositoryInterface from './../../repositories/guests/guestRepository.interface'
+import GuestInterface from '../../models/v1/guests/guest.interface.v1'
 
 class GuestController {
   private repository: GuestRepositoryInterface
@@ -33,7 +34,23 @@ class GuestController {
   }
 
   store = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const guest = req.body
+    const {
+      name,
+      phone,
+      email,
+      isActive,
+      invitationDelivered,
+      isGodfather
+    } = req.body
+
+    const guest = {
+      name,
+      phone,
+      email,
+      isActive,
+      invitationDelivered,
+      isGodfather
+    } as GuestInterface
 
     try {
       const newGuest = await this.repository.store(guest)
@@ -45,10 +62,24 @@ class GuestController {
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { id } = req.params
-    const guest = req.body
+    const {
+      name,
+      phone,
+      email,
+      isActive,
+      invitationDelivered,
+      isGodfather
+    } = req.body
 
     try {
-      const guestUpdated = await this.repository.update(id, guest)
+      const guestUpdated = await this.repository.update(id, {
+        name,
+        phone,
+        email,
+        isActive,
+        invitationDelivered,
+        isGodfather
+      } as GuestInterface)
       return res.send(guestUpdated)
     } catch (error) {
       next(error)

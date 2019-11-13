@@ -13,10 +13,18 @@ class SessionController {
   }
 
   register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const userData = req.body as UserInterface
+    const {
+      name,
+      email,
+      password
+    } = req.body
 
     try {
-      const user = await this.userRepository.store(userData)
+      const user = await this.userRepository.store({
+        name,
+        email,
+        password
+      } as UserInterface)
       return res.send(user)
     } catch (error) {
       next(error)
@@ -24,7 +32,10 @@ class SessionController {
   }
 
   authentication = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { email, password } = req.body
+    const {
+      email,
+      password
+    } = req.body
 
     try {
       const user = await this.userRepository.findOne({ email }, '+password')

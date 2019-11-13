@@ -2,8 +2,7 @@ import express from 'express'
 import cors from 'cors'
 import helmet from 'helmet'
 import bodyParser from 'body-parser'
-import mongoose from 'mongoose'
-import config from './config'
+import database from './database/database'
 
 import RepositoriesFactoryInteface from './factories/v1/repository.factory.interface.v1'
 import RoutesV1 from './routes/v1/router.v1'
@@ -21,7 +20,7 @@ class App {
       this.middlewares()
       this.routes()
       this.errorHandling()
-      this.connectToTheDatabase()
+      database.setup()
     }
 
     private middlewares (): void {
@@ -37,34 +36,6 @@ class App {
 
     private errorHandling (): void {
       this.express.use(ErrorMiddleware.checkError)
-    }
-
-    private connectToTheDatabase () :void {
-      mongoose.set('useCreateIndex', true)
-
-      mongoose.connect(config.mongoURL, {
-        useUnifiedTopology: true,
-        useNewUrlParser: true
-      })
-
-      mongoose.connection.on('connected', function () {
-        console.log(`Mongoose default connection open to ${config.mongoURL}`)
-      })
-
-      mongoose.connection.on('error', function (err) {
-        console.log(`Mongoose default connection error: ${err}`)
-      })
-
-      mongoose.connection.on('disconnected', function () {
-        console.log('Mongoose default connection disconnected')
-      })
-
-      process.on('SIGINT', function () {
-        mongoose.connection.close(function () {
-          console.log('Mongoose default connection disconnected through app termination')
-          process.exit(0)
-        })
-      })
     }
 }
 
