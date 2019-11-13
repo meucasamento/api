@@ -108,6 +108,18 @@ class GuestController {
       next(error)
     }
   }
+
+  active = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { id } = req.params
+    const { status } = req.body
+
+    try {
+      const guest = await this.repository.update(id, { isActive: status })
+      return res.send(guest)
+    } catch (error) {
+      next(error)
+    }
+  }
 }
 
 export default GuestController
