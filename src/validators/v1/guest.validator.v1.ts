@@ -1,8 +1,8 @@
 import { check, param } from 'express-validator'
 import RequestValidator from '../request.validator'
-import GuestRepositoryInterface from './../../repositories/guests/guestRepository.interface'
+import GuestRepositoryInterface from '../../repositories/guests/guestRepository.interface'
 
-class GuestRequestValidator extends RequestValidator {
+class GuestValidator extends RequestValidator {
   private guestRepository: GuestRepositoryInterface
 
   constructor (guestRepository: GuestRepositoryInterface) {
@@ -28,17 +28,7 @@ class GuestRequestValidator extends RequestValidator {
   store = [
     check('name')
       .exists().withMessage('O campo nome é obrigatório')
-      .isLength({ min: 3 }).withMessage('O campo nome deve conter ao menos 3 caracteres')
-      .custom(name => {
-        return this.guestRepository.exists({ name }).then(exists => {
-          if (exists) {
-            throw new Error('Já existe outro convidado com esse nome')
-          }
-          return true
-        }).catch(error => {
-          throw error
-        })
-      }),
+      .isLength({ min: 3 }).withMessage('O campo nome deve conter ao menos 3 caracteres'),
     check('phone')
       .optional()
       .isString(),
@@ -54,7 +44,7 @@ class GuestRequestValidator extends RequestValidator {
     check('email')
       .optional()
       .isEmail().bail().withMessage('Deve conter um email válido')
-      .custom(email => {
+      .custom((email) => {
         return this.guestRepository.exists({ email }).then(exists => {
           if (exists) {
             throw new Error('O email já está sendo utilizado')
@@ -66,7 +56,38 @@ class GuestRequestValidator extends RequestValidator {
       })
   ]
 
-  update = this.findOne.concat(this.store)
+  update = this.findOne.concat([
+    check('name')
+      .exists().withMessage('O campo nome é obrigatório')
+      .isLength({ min: 3 }).withMessage('O campo nome deve conter ao menos 3 caracteres'),
+    check('phone')
+      .optional()
+      .isString(),
+    check('isActive')
+      .optional()
+      .isBoolean(),
+    check('isConfirmed')
+      .optional()
+      .isBoolean(),
+    check('isGodfather')
+      .optional()
+      .isBoolean(),
+    check('email')
+      .optional()
+      .isEmail().bail().withMessage('Deve conter um email válido')
+      .custom((email, { req }) => {
+        const { id } = req.params
+
+        return this.guestRepository.findOne({ email }).then(guest => {
+          if (!guest || guest._id === id) {
+            return true
+          }
+          throw new Error('O email já está sendo utilizado')
+        }).catch(error => {
+          throw error
+        })
+      })
+  ])
 
   invitation = this.findOne.concat([
     check('status')
@@ -79,4 +100,4 @@ class GuestRequestValidator extends RequestValidator {
   delete = this.findOne
 }
 
-export default GuestRequestValidator
+export default GuestValidator

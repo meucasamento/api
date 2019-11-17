@@ -1,20 +1,23 @@
 import RouterInterface from '../router.interface'
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 import SessionController from '../../controllers/v1/session.controller.v1'
+import SessionValidator from './../../validators/v1/session.validator.v1'
 
 class SessionRouter extends RouterInterface {
     private controller: SessionController
+    private validator: SessionValidator
 
     constructor (repository: UserRepositoryInterface) {
       super()
       this.controller = new SessionController(repository)
+      this.validator = new SessionValidator(repository)
       this.setup()
     }
 
     private setup = (): void => {
-      this.router.post('/session/authentication', this.controller.authentication)
-      this.router.patch('/session/reset_password', this.controller.resetPassword)
-      this.router.post('/session/register', this.controller.register)
+      this.router.post('/session/authentication', this.validator.authentication, this.validator.validate, this.controller.authentication)
+      this.router.patch('/session/reset_password', this.validator.resetPassword, this.validator.validate, this.controller.resetPassword)
+      this.router.post('/session/register', this.validator.register, this.validator.validate, this.controller.register)
     }
 }
 

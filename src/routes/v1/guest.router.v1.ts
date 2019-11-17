@@ -2,16 +2,16 @@ import GuestRepositoryInterface from '../../repositories/guests/guestRepository.
 import RouterInterface from '../router.interface'
 import GuestController from '../../controllers/v1/guest.controller.v1'
 import Auth from '../../middlewares/v1/auth.middleware.v1'
-import GuestRequestValidator from '../../validators/v1/guestRequest.validator.v1'
+import GuestValidator from '../../validators/v1/guest.validator.v1'
 
 class GuestRouter extends RouterInterface {
   private controller: GuestController
-  private validator: GuestRequestValidator
+  private validator: GuestValidator
 
   constructor (repository: GuestRepositoryInterface) {
     super()
     this.controller = new GuestController(repository)
-    this.validator = new GuestRequestValidator(repository)
+    this.validator = new GuestValidator(repository)
     this.setup()
   }
 
