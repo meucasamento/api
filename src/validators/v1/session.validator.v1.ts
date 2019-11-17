@@ -33,6 +33,16 @@ class SessionValidator extends RequestValidator {
 
     resetPassword = [
       check('email').isEmail().withMessage('Deve conter um email válido')
+        .custom((email) => {
+          return this.userRepository.exists({ email }).then(exists => {
+            if (!exists) {
+              throw new Error('Não existe nenhum usuário com esse email')
+            }
+            return true
+          }).catch(error => {
+            throw error
+          })
+        })
     ]
 }
 

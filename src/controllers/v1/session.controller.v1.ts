@@ -53,6 +53,8 @@ class SessionController {
   }
 
   resetPassword = async (req: Request, res: Response): Promise<Response> => {
+    const { email } = req.body
+
     return res.send()
   }
 }
