@@ -9,13 +9,15 @@ import RoutesV1 from './routes/v1/router.v1'
 import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
 import RouterInterface from './routes/router.interface'
 
+import MailgunService from './utils/components/Mail/Mailgun.service'
+
 class App {
     public express: express.Application
 
     private routerV1: RouterInterface
 
     constructor (repositoriesFactory: RepositoriesFactoryInteface) {
-      this.routerV1 = new RoutesV1(repositoriesFactory)
+      this.routerV1 = new RoutesV1(repositoriesFactory, MailgunService)
       this.express = express()
       this.middlewares()
       this.routes()

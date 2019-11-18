@@ -4,12 +4,16 @@ import UserRepositoryInterface from './../../repositories/users/userRepository.i
 import TokenManager from '../../utils/components/tokenManager'
 import UserInterface from '../../models/v1/users/user.interface.v1'
 import Encryption from './../../utils/encryption'
+import MailServiceInterface from '../../utils/components/Mail/Mail.service.interface'
 
 class SessionController {
   private userRepository: UserRepositoryInterface
+  private mailService: MailServiceInterface
 
-  constructor (userRepository: UserRepositoryInterface) {
+  constructor (userRepository: UserRepositoryInterface,
+    mailService: MailServiceInterface) {
     this.userRepository = userRepository
+    this.mailService = mailService
   }
 
   register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
@@ -20,10 +24,11 @@ class SessionController {
     } = req.body
 
     try {
+      const encryptedPassword = await Encryption.hash(password)
       const user = await this.userRepository.store({
         name,
         email,
-        password
+        password: encryptedPassword
       } as UserInterface)
       return res.send(user)
     } catch (error) {
@@ -52,10 +57,22 @@ class SessionController {
     }
   }
 
-  resetPassword = async (req: Request, res: Response): Promise<Response> => {
+  resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { email } = req.body
-
-    return res.send()
+    try {
+      const randomstring = Math.random().toString(36).slice(-8)
+      const encryptedPassword = await Encryption.hash(randomstring)
+      const { _id } = await this.userRepository.findOne({ email })
+      await this.userRepository.update(_id, { password: encryptedPassword })
+      // await this.mailService.send(email,
+      //   'Reset de senha',
+      //   'teste')
+      return res.json({
+        password: randomstring
+      })
+    } catch (error) {
+      next(error)
+    }
   }
 }
 
