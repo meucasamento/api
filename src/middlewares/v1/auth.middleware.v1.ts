@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
-import config from './../../config'
-import tokenHelper from '../../utils/components/tokenManager'
+import Config from './../../config'
+import TokenManager from '../../utils/components/tokenManager'
 import NoPermissionException from './../../exceptions/noPermission.exception'
 
 class AuthMiddleware {
@@ -11,12 +11,12 @@ class AuthMiddleware {
       next(NoPermissionException)
     }
 
-    if (token.startsWith(config.authorizationPrefix)) {
-      token = token.slice(config.authorizationPrefix.length, token.length)
+    if (token.startsWith(Config.authorizationPrefix)) {
+      token = token.slice(Config.authorizationPrefix.length, token.length)
     }
 
     try {
-      tokenHelper.verify(token)
+      TokenManager.verify(token)
       next()
     } catch {
       next(NoPermissionException)

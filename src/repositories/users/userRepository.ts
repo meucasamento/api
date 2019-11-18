@@ -3,7 +3,6 @@ import UserInterface from '../../models/v1/users/user.interface.v1'
 import UserModel from './../../models/v1/users/user.model.v1'
 import UserRepositoryInterface from './userRepository.interface'
 import BaseRepository from './../base/baseRepository'
-import NotImplementedException from './../../exceptions/notImplemented.exception'
 import Encryption from './../../utils/encryption'
 
 class UserRepository extends BaseRepository<UserInterface & Document> implements UserRepositoryInterface {
@@ -22,8 +21,14 @@ class UserRepository extends BaseRepository<UserInterface & Document> implements
     }
   }
 
-  changePassword = async (currentPassword: string, newPassword: string): Promise<boolean> => {
-    throw NotImplementedException
+  changePassword = async (id: string, newPassword: string): Promise<void> => {
+    try {
+      const encryptedPassword = await Encryption.hash(newPassword)
+      await this.update(id, { password: encryptedPassword })
+      return Promise.resolve()
+    } catch (error) {
+      return Promise.reject(error)
+    }
   }
 }
 

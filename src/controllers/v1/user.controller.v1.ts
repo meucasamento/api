@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express'
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
+import TokenManager from '../../utils/components/tokenManager'
 
 class UserController {
   private repository: UserRepositoryInterface
@@ -67,10 +68,12 @@ class UserController {
   }
 
   changePassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { currentPassword, newPassword } = req.body
+    const token = req.headers.authorization
+    const { newPassword } = req.body
 
     try {
-      await this.repository.changePassword(currentPassword, newPassword)
+      const { id } = await TokenManager.verify(token)
+      await this.repository.changePassword(id, newPassword)
       return res.status(204).send()
     } catch (error) {
       next(error)

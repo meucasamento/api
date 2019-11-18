@@ -3,5 +3,5 @@ import ReadRepositoryInterface from './../base/readRepository.interface'
 import WriteRepositoryInterface from './../base/writeRepository.interface'
 
 export default interface UserRepositoryInterface extends ReadRepositoryInterface<UserInterface>, WriteRepositoryInterface<UserInterface> {
-    changePassword(currentPassword: string, newPassword: string): Promise<boolean>
+    changePassword(id: string, newPassword: string): Promise<void>
 }
