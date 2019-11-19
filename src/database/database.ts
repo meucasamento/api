@@ -4,6 +4,7 @@ import config from './../config'
 class Database {
   setup (): void {
     mongoose.set('useCreateIndex', true)
+    mongoose.set('useFindAndModify', false)
 
     mongoose.connect(config.mongoURL, {
       useUnifiedTopology: true,

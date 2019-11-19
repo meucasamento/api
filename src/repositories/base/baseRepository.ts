@@ -54,7 +54,7 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
   }
 
   update = async (id: string, data: object): Promise<T> => {
-    return this.model.findByIdAndUpdate({ _id: id }, data, { new: true })
+    return this.model.findByIdAndUpdate({ _id: id }, data, { new: true, omitUndefined: true })
   }
 
   delete = async (id: string): Promise<T> => {

@@ -47,7 +47,7 @@ class SessionController {
       const mathPassword = await Encryption.compare(password, user.password)
 
       if (mathPassword) {
-        const data = TokenManager.sign({ id: user._id })
+        const data = TokenManager.signUser(user._id)
         return res.send(data)
       } else {
         return res.status(401).send()
@@ -60,14 +60,15 @@ class SessionController {
   resetPassword = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { email } = req.body
     try {
-      const randomstring = Math.random().toString(36).slice(-8)
-      const encryptedPassword = await Encryption.hash(randomstring)
+      const randomString = Math.random().toString(36).slice(-8)
+      const encryptedPassword = await Encryption.hash(randomString)
       const { _id } = await this.userRepository.findOne({ email })
       await this.userRepository.update(_id, { password: encryptedPassword })
-      await this.mailService.send(email,
-        'Reset de senha',
-        `Sua senha foi resetada com sucesso, para acesso temporário você deve usar: <strong>${randomstring}</strong>.`)
-      return res.send()
+      // await this.mailService.send(email,
+      //   'Reset de senha',
+      //   `Sua senha foi resetada com sucesso, para acesso temporário você deve usar: <strong>${randomstring}</strong>.`)
+      // return res.send()
+      return res.send({ password: randomString })
     } catch (error) {
       next(error)
     }

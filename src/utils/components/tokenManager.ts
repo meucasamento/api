@@ -12,6 +12,10 @@ interface TokenResponseInterface {
 
 class TokenManager {
   verify (token: string): TokenPayloadInterface {
+    if (token.startsWith(config.authorizationPrefix)) {
+      token = token.slice(config.authorizationPrefix.length, token.length)
+    }
+
     const secret = config.secret
     const data = jwt.verify(token, secret)
     return data as TokenPayloadInterface
@@ -25,6 +29,10 @@ class TokenManager {
       algorithm: 'HS512'
     })
     return { token, expiresIn }
+  }
+
+  signUser (id: string): TokenResponseInterface {
+    return this.sign({ id })
   }
 }
 

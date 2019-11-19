@@ -33,35 +33,18 @@ class UserController {
     }
   }
 
-  search = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { query } = req.query
-
-    try {
-      const users = await this.repository.find(query)
-      return res.send(users)
-    } catch (error) {
-      next(error)
-    }
-  }
-
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { id } = req.params
-    const user = req.body
+    const token = req.headers.authorization
+    const { name, email } = req.body
 
     try {
-      const userUpdated = await this.repository.update(id, user)
-      return res.send(userUpdated)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  delete = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { id } = req.body
-
-    try {
-      await this.repository.delete(id)
-      return res.status(204).send()
+      const { id } = await TokenManager.verify(token)
+      const userUpdated = await this.repository.update(id, { name, email })
+      const newToken = TokenManager.signUser(id)
+      return res.send({
+        user: userUpdated,
+        token: newToken
+      })
     } catch (error) {
       next(error)
     }
@@ -72,9 +55,10 @@ class UserController {
     const { newPassword } = req.body
 
     try {
-      const { id } = await TokenManager.verify(token)
+      const { id } = TokenManager.verify(token)
       await this.repository.changePassword(id, newPassword)
-      return res.status(204).send()
+      const updatedToken = await TokenManager.signUser(id)
+      return res.send(updatedToken)
     } catch (error) {
       next(error)
     }

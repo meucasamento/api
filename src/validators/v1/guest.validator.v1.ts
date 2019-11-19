@@ -79,7 +79,7 @@ class GuestValidator extends RequestValidator {
         const { id } = req.params
 
         return this.guestRepository.findOne({ email }).then(guest => {
-          if (!guest || guest._id === id) {
+          if (!guest || guest.id === id) {
             return true
           }
           throw new Error('O email já está sendo utilizado')
