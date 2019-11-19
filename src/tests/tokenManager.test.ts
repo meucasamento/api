@@ -35,9 +35,9 @@ test('Extract correctly user id from token hash', async () => {
 })
 
 test('Must be not extract data from invalid token', async () => {
-  const user = { id: 'ab123', name: 'Adriano' }
-  const { token } = tokenManager.sign(user)
   try {
+    const user = { id: 'ab123', name: 'Adriano' }
+    const { token } = tokenManager.sign(user)
     tokenManager.verify(token + 'sdfsdf')
     fail()
   } catch {
