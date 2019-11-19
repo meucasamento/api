@@ -1,11 +1,11 @@
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 class Encryption {
-  async hash (data: object | string | number): Promise<string> {
+  async hash (data: string): Promise<string> {
     return bcrypt.hash(data, 10)
   }
 
-  async compare (data: object | string | number, encrypted: string): Promise<boolean> {
+  async compare (data: string, encrypted: string): Promise<boolean> {
     return bcrypt.compare(data, encrypted)
   }
 }
