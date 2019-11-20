@@ -12,7 +12,6 @@
     "@types/bcrypt": "^3.0.0",
     "@types/bcryptjs": "^2.4.2",
     "@types/express-validator": "^3.0.0",
-    "@types/jest": "^24.0.23",
     "@types/jsonwebtoken": "^8.3.4",
     "@types/mailgun-js": "^0.22.3",
     "@types/mongoose-paginate-v2": "^1.0.5",
@@ -24,7 +23,6 @@
     "express": "^4.17.1",
     "express-validator": "^6.2.0",
     "helmet": "^3.21.1",
-    "jest": "^24.9.0",
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.7.4",
@@ -51,19 +49,5 @@
     "prettier": "^1.18.2",
     "sucrase": "^3.10.1",
     "typescript": "^3.6.3"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.ts$": "ts-jest"
-    },
-    "testRegex": "\\.test\\.ts",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ]
   }
 }
