@@ -1,46 +1,50 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-undef */
-import tokenManager from './../utils/components/tokenManager'
+import { assert, expect } from 'chai'
 
-test('Should generate token hash and time expiration', async () => {
-  try {
-    const user = { id: 'ab123', name: 'Adriano' }
-    const { token, expiresIn } = tokenManager.sign(user)
-    expect(token).not.toBe(user)
-    expect(token).not.toBeNull()
-    expect(expiresIn).not.toBeNull()
-  } catch (error) {
-    fail(error)
-  }
-})
+import tokenManager from '../utils/components/tokenManager'
 
-test('Extract correctly id from token hash', async () => {
-  try {
-    const user = { id: 'ab123', name: 'Adriano' }
-    const { token } = tokenManager.sign(user)
-    const tokenData = tokenManager.verify(token)
-    expect(tokenData.id).toBe('ab123')
-  } catch (error) {
-    fail(error)
-  }
-})
+describe('TokenManager', () => {
+  it('Should generate token hash and time expiration', () => {
+    try {
+      const user = { id: 'ab123', name: 'Adriano' }
+      const { token, expiresIn } = tokenManager.sign(user)
+      expect(token).to.not.be.null
+      expect(expiresIn).to.not.be.null
+    } catch (error) {
+      assert.fail(error)
+    }
+  })
 
-test('Extract correctly user id from token hash', async () => {
-  try {
-    const { token } = tokenManager.signUser('ab123')
-    const tokenData = tokenManager.verify(token)
-    expect(tokenData.id).toBe('ab123')
-  } catch (error) {
-    fail(error)
-  }
-})
+  it('Extract correctly id from token hash', () => {
+    try {
+      const user = { id: 'ab123', name: 'Adriano' }
+      const { token } = tokenManager.sign(user)
+      const tokenData = tokenManager.verify(token)
+      expect(tokenData.id).to.be.equal('ab123')
+    } catch (error) {
+      assert.fail(error)
+    }
+  })
 
-test('Must be not extract data from invalid token', async () => {
-  try {
-    const user = { id: 'ab123', name: 'Adriano' }
-    const { token } = tokenManager.sign(user)
-    tokenManager.verify(token + 'sdfsdf')
-    fail()
-  } catch {
-    expect(true)
-  }
+  it('Extract correctly user id from token hash', () => {
+    try {
+      const { token } = tokenManager.signUser('ab123')
+      const tokenData = tokenManager.verify(token)
+      expect(tokenData.id).to.be.equal('ab123')
+    } catch (error) {
+      assert.fail(error)
+    }
+  })
+
+  it('Must be not extract data from invalid token', () => {
+    try {
+      const user = { id: 'ab123', name: 'Adriano' }
+      const { token } = tokenManager.sign(user)
+      tokenManager.verify(token + 'sdfsdf')
+      assert.fail()
+    } catch {
+      expect(true)
+    }
+  })
 })

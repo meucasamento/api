@@ -1,6 +1,6 @@
 import UserInterface from '../../models/v1/users/user.interface.v1'
 import PaginateResult from '../../repositories/base/paginateResult.interface'
-import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
+import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 
 class UserRepositoryMock implements UserRepositoryInterface {
   changePassword (id: string, newPassword: string): Promise<void> {

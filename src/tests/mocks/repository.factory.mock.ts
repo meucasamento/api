@@ -1,7 +1,7 @@
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 import GuestRepositoryInterface from '../../repositories/guests/guestRepository.interface'
 import DashboardRepositoryInterface from '../../repositories/dashboard/dashboardRepository.interface'
-import RepositoryFactoryInterface from './../../factories/v1/repository.factory.interface.v1'
+import RepositoryFactoryInterface from '../../factories/v1/repository.factory.interface.v1'
 
 import UserRepositoryMock from './user.repository.mock'
 import GuestRepositoryMock from './guest.repository.mock'

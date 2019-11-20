@@ -1,4 +1,4 @@
-import MailServiceInterface from './../../utils/components/mail/mail.service.interface'
+import MailServiceInterface from '../../utils/components/mail/mail.service.interface'
 
 class MailServiceMock implements MailServiceInterface {
   send (email: string, subject?: string, body?: string): Promise<void> {

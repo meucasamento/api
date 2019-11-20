@@ -1,4 +1,4 @@
-import DashboardInterface from './../../repositories/dashboard/dashboardRepository.interface'
+import DashboardInterface from '../../repositories/dashboard/dashboardRepository.interface'
 import ReportInterface from '../../models/v1/dashboard/report.interface.v2'
 
 class DashboardRepositoryMock implements DashboardInterface {

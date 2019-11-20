@@ -1,34 +1,38 @@
 /* eslint-disable no-undef */
-import encryption from './../utils/encryption'
+import { assert, expect } from 'chai'
 
-test('Hash should not equals to value', async () => {
-  try {
-    const value = '1234567'
-    const hash = await encryption.hash(value)
-    expect(hash).not.toBe('1234567')
-  } catch (error) {
-    fail(error)
-  }
-})
+import encryption from '../utils/encryption'
 
-test('Hash comparison with origin value should return true', async () => {
-  try {
-    const value = 'ab*553'
-    const hash = await encryption.hash(value)
-    const compare = await encryption.compare(value, hash)
-    expect(compare).toBeTruthy()
-  } catch (error) {
-    fail(error)
-  }
-})
+describe('Encryption', () => {
+  it('Hash should not equals to value', async () => {
+    try {
+      const value = '1234567'
+      const hash = await encryption.hash(value)
+      expect(hash).not.equals('1234567')
+    } catch (error) {
+      assert.fail(error)
+    }
+  })
 
-test('Hash comparison with false origin value should return false', async () => {
-  try {
-    const value = 'ab*553'
-    const hash = await encryption.hash(value)
-    const compare = await encryption.compare('ab**ˆ%%', hash)
-    expect(compare).toBeFalsy()
-  } catch (error) {
-    fail(error)
-  }
+  it('Hash comparison with origin value should return true', async () => {
+    try {
+      const value = 'ab*553'
+      const hash = await encryption.hash(value)
+      const compare = await encryption.compare(value, hash)
+      assert.isTrue(compare)
+    } catch (error) {
+      assert.fail(error)
+    }
+  })
+
+  it('Hash comparison with false origin value should return false', async () => {
+    try {
+      const value = 'ab*553'
+      const hash = await encryption.hash(value)
+      const compare = await encryption.compare('ab**ˆ%%', hash)
+      assert.isFalse(compare)
+    } catch (error) {
+      assert.fail(error)
+    }
+  })
 })

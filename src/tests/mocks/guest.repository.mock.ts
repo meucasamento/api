@@ -1,6 +1,6 @@
 import GuestInterface from '../../models/v1/guests/guest.interface.v1'
 import PaginateResult from '../../repositories/base/paginateResult.interface'
-import GuestRepositoryInterface from './../../repositories/guests/guestRepository.interface'
+import GuestRepositoryInterface from '../../repositories/guests/guestRepository.interface'
 
 class GuestRepositoryMock implements GuestRepositoryInterface {
   invitation (id: string, status: boolean): Promise<GuestInterface> {
