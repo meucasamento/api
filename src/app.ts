@@ -1,23 +1,24 @@
-import express from 'express'
-import cors from 'cors'
-import helmet from 'helmet'
-import bodyParser from 'body-parser'
+import * as express from 'express'
+import * as cors from 'cors'
+import * as helmet from 'helmet'
+import * as bodyParser from 'body-parser'
 import database from './database/database'
 
-import RepositoriesFactoryInteface from './factories/v1/repository.factory.interface.v1'
+import RepositoryFactoryInteface from './factories/v1/repository.factory.interface.v1'
 import RoutesV1 from './routes/v1/router.v1'
 import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
 import RouterInterface from './routes/router.interface'
 
-import MailgunService from './utils/components/Mail/Mailgun.service'
+import MailServiceInterface from './utils/components/mail/mail.service.interface'
 
 class App {
     public express: express.Application
 
     private routerV1: RouterInterface
 
-    constructor (repositoriesFactory: RepositoriesFactoryInteface) {
-      this.routerV1 = new RoutesV1(repositoriesFactory, MailgunService)
+    constructor (repositoryFactory: RepositoryFactoryInteface,
+      emailService: MailServiceInterface) {
+      this.routerV1 = new RoutesV1(repositoryFactory, emailService)
       this.express = express()
       this.middlewares()
       this.routes()
