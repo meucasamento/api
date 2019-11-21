@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+import { it, describe } from 'mocha'
 import { assert, expect } from 'chai'
 
 import encryption from '../utils/encryption'

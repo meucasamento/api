@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 class Encryption {
   async hash (data: string): Promise<string> {

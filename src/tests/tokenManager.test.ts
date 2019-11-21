@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-expressions */
-/* eslint-disable no-undef */
+import { it, describe } from 'mocha'
 import { assert, expect } from 'chai'
 
 import tokenManager from '../utils/components/tokenManager'
@@ -9,8 +8,8 @@ describe('TokenManager', () => {
     try {
       const user = { id: 'ab123', name: 'Adriano' }
       const { token, expiresIn } = tokenManager.sign(user)
-      expect(token).to.not.be.null
-      expect(expiresIn).to.not.be.null
+      expect(token).not.equal(null)
+      expect(expiresIn).not.equals(null)
     } catch (error) {
       assert.fail(error)
     }
