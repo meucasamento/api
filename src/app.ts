@@ -1,9 +1,4 @@
-import * as express from 'express'
-import * as cors from 'cors'
-import * as helmet from 'helmet'
-import * as bodyParser from 'body-parser'
-import database from './database/database'
-
+import { Application } from 'express'
 import RepositoryFactoryInteface from './factories/v1/repository.factory.interface.v1'
 import RoutesV1 from './routes/v1/router.v1'
 import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
@@ -12,34 +7,28 @@ import RouterInterface from './routes/router.interface'
 import MailServiceInterface from './utils/components/mail/mail.service.interface'
 
 class App {
-    public express: express.Application
+  private server: Application
+  private routerV1: RouterInterface
 
-    private routerV1: RouterInterface
+  constructor (server: Application,
+    repositoryFactory: RepositoryFactoryInteface,
+    emailService: MailServiceInterface) {
+    this.server = server
+    this.routerV1 = new RoutesV1(repositoryFactory, emailService)
+  }
 
-    constructor (repositoryFactory: RepositoryFactoryInteface,
-      emailService: MailServiceInterface) {
-      this.routerV1 = new RoutesV1(repositoryFactory, emailService)
-      this.express = express()
-      this.middlewares()
-      this.routes()
-      this.errorHandling()
-      database.setup()
-    }
+  public setup (): void {
+    this.middlewares()
+    this.routes()
+  }
 
-    private middlewares (): void {
-      this.express.use(helmet())
-      this.express.use(express.json())
-      this.express.use(cors())
-      this.express.use(bodyParser.json())
-    }
+  private middlewares (): void {
+    this.server.use(ErrorMiddleware.checkError)
+  }
 
-    private routes (): void {
-      this.express.use('/api/v1', this.routerV1.router)
-    }
-
-    private errorHandling (): void {
-      this.express.use(ErrorMiddleware.checkError)
-    }
+  private routes (): void {
+    this.server.use('/api/v1', this.routerV1.router)
+  }
 }
 
 export default App
