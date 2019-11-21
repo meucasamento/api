@@ -1,7 +1,7 @@
-import express from 'express'
-import cors from 'cors'
-import helmet from 'helmet'
-import bodyParser from 'body-parser'
+import * as express from 'express'
+import * as cors from 'cors'
+import * as helmet from 'helmet'
+import * as bodyParser from 'body-parser'
 import database from './database/database'
 
 import RepositoryFactoryInteface from './factories/v1/repository.factory.interface.v1'
