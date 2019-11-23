@@ -67,8 +67,8 @@ class SessionController {
     try {
       const randomString = Math.random().toString(36).slice(-8)
       const encryptedPassword = await Encryption.hash(randomString)
-      const { _id } = await this.userRepository.findOne({ email })
-      await this.userRepository.update(_id, { password: encryptedPassword })
+      const { id } = await this.userRepository.findOne({ email })
+      await this.userRepository.update(id, { password: encryptedPassword })
       await this.mailService.send(email,
         'Reset de senha',
         `Sua senha foi resetada com sucesso, para acesso temporário você deve usar a senha temporária: <strong>${randomString}</strong>.`)

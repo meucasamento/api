@@ -18,7 +18,7 @@ class SessionRouter extends RouterInterface {
 
     private setup = (): void => {
       this.router.post('/session/authentication', this.validator.authentication, this.validator.validate, this.controller.authentication)
-      this.router.patch('/session/reset_password', this.validator.resetPassword, this.validator.validate, this.controller.resetPassword)
+      this.router.post('/session/reset_password', this.validator.resetPassword, this.validator.validate, this.controller.resetPassword)
       this.router.post('/session/register', this.validator.register, this.validator.validate, this.controller.register)
     }
 }

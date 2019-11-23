@@ -38,7 +38,11 @@ class UserRepositoryMock implements UserRepositoryInterface {
   }
 
   async exists (query: object): Promise<boolean> {
-    throw new Error('Method not implemented.')
+    const queryData = query as UserInterface
+    const user = this.fakeUsers()
+      .find(person => person.email === queryData.email)
+    const status = user !== undefined
+    return Promise.resolve(status)
   }
 
   async store (object: UserInterface): Promise<UserInterface> {
@@ -46,7 +50,9 @@ class UserRepositoryMock implements UserRepositoryInterface {
   }
 
   async update (id: string, data: object): Promise<UserInterface> {
-    throw new Error('Method not implemented.')
+    const user = this.fakeUsers()
+      .find(person => person.id === id)
+    return Promise.resolve(user)
   }
 
   async delete (id: string): Promise<UserInterface> {

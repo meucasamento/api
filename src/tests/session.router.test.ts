@@ -12,7 +12,7 @@ const server = express()
 const app = new App(server, RepositoryFactory, MailService)
 app.setup()
 
-describe('Session Router', () => {
+describe('Authentication', () => {
   it('Should return token after authentication successful', () => {
     request(server)
       .post('/api/v1/session/authentication')
@@ -72,6 +72,44 @@ describe('Session Router', () => {
         const { errors } = res.body
         expect(errors[0].msg).to.be.equal('O campo password é obrigatório')
         expect(errors[0].param).to.be.equal('password')
+      })
+  })
+})
+
+describe('Reset Password', () => {
+  it('Must be return status code 200', (done) => {
+    request(server)
+      .post('/api/v1/session/reset_password')
+      .send({
+        email: 'adriano@gmail.com'
+      })
+      .expect(200, done)
+  })
+
+  it('Email must be required', () => {
+    request(server)
+      .post('/api/v1/session/reset_password')
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+        expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[0].param).to.be.equal('email')
+      })
+  })
+
+  it('Validation when email not exists', () => {
+    request(server)
+      .post('/api/v1/session/reset_password')
+      .send({
+        email: 'adriano_fake@gmail.com.br'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+        expect(errors[0].msg).to.be.equal('Não existe nenhum usuário com esse email')
+        expect(errors[0].param).to.be.equal('email')
       })
   })
 })
