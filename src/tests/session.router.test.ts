@@ -31,4 +31,17 @@ describe('Session Router', () => {
         expect(expiresIn).to.be.equal(3600)
       })
   })
+
+  it('Should not return token after authentication failed', () => {
+    request(server)
+      .post('/api/v1/session/authentication')
+      .send({
+        email: 'guest@gmail.com',
+        password: '123'
+      })
+      .expect(401)
+      .end((err) => {
+        if (err) { throw err }
+      })
+  })
 })
