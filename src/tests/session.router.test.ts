@@ -32,7 +32,7 @@ describe('Session Router', () => {
       })
   })
 
-  it('Should not return token after authentication failed', () => {
+  it('Should return status code 401 from authentication failed', () => {
     request(server)
       .post('/api/v1/session/authentication')
       .send({
@@ -42,6 +42,36 @@ describe('Session Router', () => {
       .expect(401)
       .end((err) => {
         if (err) { throw err }
+      })
+  })
+
+  it('Email must be required', () => {
+    request(server)
+      .post('/api/v1/session/authentication')
+      .send({
+        password: '123'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+        expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[0].param).to.be.equal('email')
+      })
+  })
+
+  it('Password must be required', () => {
+    request(server)
+      .post('/api/v1/session/authentication')
+      .send({
+        email: 'adriano@gmail.com'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+        expect(errors[0].msg).to.be.equal('O campo password é obrigatório')
+        expect(errors[0].param).to.be.equal('password')
       })
   })
 })
