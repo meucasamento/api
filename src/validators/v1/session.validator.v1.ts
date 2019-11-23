@@ -12,7 +12,7 @@ class SessionValidator extends RequestValidator {
 
     authentication = [
       check('email').isEmail().withMessage('Deve conter um email válido'),
-      check('password').exists()
+      check('password').exists().withMessage('O campo password é obrigatório')
     ]
 
     register = [

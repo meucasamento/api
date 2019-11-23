@@ -2,11 +2,10 @@
   "compilerOptions": {
     "module": "commonjs",
     "esModuleInterop": true,
-    "moduleResolution": "node",
     "target": "es6",
-    "lib": ["es2019", "es6", "dom"],
-    "allowSyntheticDefaultImports": true,
-    "sourceMap": false,
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./src"
   },

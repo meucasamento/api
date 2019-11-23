@@ -3,31 +3,53 @@ import PaginateResult from '../../repositories/base/paginateResult.interface'
 import UserRepositoryInterface from '../../repositories/users/userRepository.interface'
 
 class UserRepositoryMock implements UserRepositoryInterface {
-  changePassword (id: string, newPassword: string): Promise<void> {
+  private fakeUsers (): UserInterface[] {
+    const people = [
+      { name: 'Adriano Souza Costa', email: 'adriano@gmail.com' },
+      { name: 'Jenifer Queiroz Vassallo', email: 'jenifer@gmail.com' },
+      { name: 'Maria Aparecida de Souza', email: 'maria@gmail.com' },
+      { name: 'Francisco', email: 'francisco@gmail.com' }
+    ]
+    return people.map((person, index) => {
+      return {
+        id: `${index}`,
+        createdIn: 1,
+        updatedIn: 1,
+        name: person.name,
+        email: person.email,
+        password: '$2b$10$egEx6Il6JrTTG.bzzIDUwOeWycXO.zLu7/NyBHogGkn.KdE5w.aFy' // 12345678
+      } as UserInterface
+    })
+  }
+
+  async changePassword (id: string, newPassword: string): Promise<void> {
     throw new Error('Method not implemented.')
   }
 
-  find (query?: object, page?: number, limit?: number, populate?: string | object): Promise<PaginateResult<UserInterface>> {
+  async find (query?: object, page?: number, limit?: number, populate?: string | object): Promise<PaginateResult<UserInterface>> {
     throw new Error('Method not implemented.')
   }
 
-  findOne (query: object, select?: string | object, projection?: string | object): Promise<UserInterface> {
+  async findOne (query: object, select?: string | object, projection?: string | object): Promise<UserInterface> {
+    const queryData = query as UserInterface
+    const user = this.fakeUsers()
+      .find(person => person.email === queryData.email)
+    return Promise.resolve(user)
+  }
+
+  async exists (query: object): Promise<boolean> {
     throw new Error('Method not implemented.')
   }
 
-  exists (query: object): Promise<boolean> {
+  async store (object: UserInterface): Promise<UserInterface> {
     throw new Error('Method not implemented.')
   }
 
-  store (object: UserInterface): Promise<UserInterface> {
+  async update (id: string, data: object): Promise<UserInterface> {
     throw new Error('Method not implemented.')
   }
 
-  update (id: string, data: object): Promise<UserInterface> {
-    throw new Error('Method not implemented.')
-  }
-
-  delete (id: string): Promise<UserInterface> {
+  async delete (id: string): Promise<UserInterface> {
     throw new Error('Method not implemented.')
   }
 }
