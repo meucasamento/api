@@ -46,7 +46,7 @@ class UserRepositoryMock implements UserRepositoryInterface {
   }
 
   async store (object: UserInterface): Promise<UserInterface> {
-    throw new Error('Method not implemented.')
+    return Promise.resolve(object)
   }
 
   async update (id: string, data: object): Promise<UserInterface> {

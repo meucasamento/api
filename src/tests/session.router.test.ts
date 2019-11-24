@@ -45,33 +45,22 @@ describe('Authentication', () => {
       })
   })
 
-  it('Email must be required', () => {
+  it('Validation consistency', () => {
     request(server)
       .post('/api/v1/session/authentication')
-      .send({
-        password: '123'
-      })
+      .send()
       .expect(422)
       .end((err, res) => {
         if (err) { throw err }
         const { errors } = res.body
+
         expect(errors[0].msg).to.be.equal('Deve conter um email válido')
         expect(errors[0].param).to.be.equal('email')
-      })
-  })
+        expect(errors[0].location).to.be.equal('body')
 
-  it('Password must be required', () => {
-    request(server)
-      .post('/api/v1/session/authentication')
-      .send({
-        email: 'adriano@gmail.com'
-      })
-      .expect(422)
-      .end((err, res) => {
-        if (err) { throw err }
-        const { errors } = res.body
-        expect(errors[0].msg).to.be.equal('O campo password é obrigatório')
-        expect(errors[0].param).to.be.equal('password')
+        expect(errors[1].msg).to.be.equal('O campo password é obrigatório')
+        expect(errors[1].param).to.be.equal('password')
+        expect(errors[1].location).to.be.equal('body')
       })
   })
 })
@@ -86,7 +75,7 @@ describe('Reset Password', () => {
       .expect(200, done)
   })
 
-  it('Email must be required', () => {
+  it('Email must be not empty', () => {
     request(server)
       .post('/api/v1/session/reset_password')
       .expect(422)
@@ -98,7 +87,22 @@ describe('Reset Password', () => {
       })
   })
 
-  it('Validation when email not exists', () => {
+  it('Required valid email', () => {
+    request(server)
+      .post('/api/v1/session/reset_password')
+      .send({
+        email: 'guest.com.br'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+        expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[0].param).to.be.equal('email')
+      })
+  })
+
+  it('Validation when not exists user with email', () => {
     request(server)
       .post('/api/v1/session/reset_password')
       .send({
@@ -110,6 +114,86 @@ describe('Reset Password', () => {
         const { errors } = res.body
         expect(errors[0].msg).to.be.equal('Não existe nenhum usuário com esse email')
         expect(errors[0].param).to.be.equal('email')
+      })
+  })
+})
+
+describe('Register', () => {
+  it('Must be return status code 200', () => {
+    request(server)
+      .post('/api/v1/session/register')
+      .send({
+        name: 'User Test',
+        email: 'new_user_test@gmail.com',
+        password: '12345678'
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { name, email } = res.body
+
+        expect(name).to.be.equal('User Test')
+        expect(email).to.be.equal('new_user_test@gmail.com')
+      })
+  })
+
+  it('Validation consistency', () => {
+    request(server)
+      .post('/api/v1/session/register')
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('O campo nome é obrigatório')
+        expect(errors[0].param).to.be.equal('name')
+        expect(errors[0].location).to.be.equal('body')
+
+        expect(errors[1].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[1].param).to.be.equal('email')
+        expect(errors[1].location).to.be.equal('body')
+
+        expect(errors[2].msg).to.be.equal('O campo password é obrigatório')
+        expect(errors[2].param).to.be.equal('password')
+        expect(errors[2].location).to.be.equal('body')
+      })
+  })
+
+  it('Required valid email', () => {
+    request(server)
+      .post('/api/v1/session/register')
+      .send({
+        name: 'User Test',
+        email: 'new_user_test@.com',
+        password: '12345678'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[0].param).to.be.equal('email')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
+
+  it('Should not pass a up a existing email', () => {
+    request(server)
+      .post('/api/v1/session/register')
+      .send({
+        name: 'User Test',
+        email: 'adriano@gmail.com',
+        password: '12345678'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('O email já está sendo utilizado')
+        expect(errors[0].param).to.be.equal('email')
+        expect(errors[0].location).to.be.equal('body')
       })
   })
 })

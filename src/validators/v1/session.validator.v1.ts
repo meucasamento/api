@@ -16,7 +16,7 @@ class SessionValidator extends RequestValidator {
     ]
 
     register = [
-      check('name').exists(),
+      check('name').exists().withMessage('O campo nome é obrigatório'),
       check('email').isEmail().bail().withMessage('Deve conter um email válido')
         .custom((email) => {
           return this.userRepository.exists({ email }).then(exists => {
