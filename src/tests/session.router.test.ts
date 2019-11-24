@@ -50,6 +50,7 @@ describe('Authentication', () => {
       .post('/api/v1/session/authentication')
       .send()
       .expect(422)
+      .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) { throw err }
         const { errors } = res.body
@@ -79,6 +80,7 @@ describe('Reset Password', () => {
     request(server)
       .post('/api/v1/session/reset_password')
       .expect(422)
+      .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) { throw err }
         const { errors } = res.body
@@ -168,6 +170,7 @@ describe('Register', () => {
         password: '12345678'
       })
       .expect(422)
+      .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) { throw err }
         const { errors } = res.body
@@ -187,6 +190,7 @@ describe('Register', () => {
         password: '12345678'
       })
       .expect(422)
+      .expect('Content-Type', /json/)
       .end((err, res) => {
         if (err) { throw err }
         const { errors } = res.body
