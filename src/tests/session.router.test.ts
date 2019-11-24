@@ -178,7 +178,7 @@ describe('Register', () => {
       })
   })
 
-  it('Should not pass a up a existing email', () => {
+  it('Should not pass up a existing email', () => {
     request(server)
       .post('/api/v1/session/register')
       .send({
