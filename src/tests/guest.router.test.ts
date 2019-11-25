@@ -15,7 +15,7 @@ app.setup()
 const { token } = TokenManager.signUser('abb123')
 
 describe('Guests', () => {
-  it('Require authentication', () => {
+  it('Authentication is required', () => {
     request(server)
       .get('/api/v1/guests')
       .expect(401)
@@ -44,6 +44,56 @@ describe('Guests', () => {
         expect(items[1].name).to.be.equal('Deise')
         expect(items[2].name).to.be.equal('Ebert')
         expect(items[3].name).to.be.equal('Sarah')
+      })
+  })
+})
+
+describe('Guest Invitation', () => {
+  it('Authentication is required', () => {
+    request(server)
+      .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
+      .expect(401)
+      .end((err) => {
+        if (err) { throw err }
+      })
+  })
+
+  it('Send invitation should require status', () => {
+    request(server)
+      .patch('/api/v1/guests/1/invitation')
+      .set('authorization', token)
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('O campo status é obrigatório')
+        expect(errors[0].param).to.be.equal('status')
+        expect(errors[0].location).to.be.equal('body')
+
+        expect(errors[1].msg).to.be.equal('O campo status deve conter um valor do tipo boolean')
+        expect(errors[1].param).to.be.equal('status')
+        expect(errors[1].location).to.be.equal('body')
+      })
+  })
+
+  it('Existing user required', () => {
+    request(server)
+      .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
+      .set('authorization', token)
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('O convidado não existe')
+        expect(errors[0].param).to.be.equal('id')
+        expect(errors[0].location).to.be.equal('params')
+        expect(errors[0].value).to.be.equal('5dc9319f5187692e3d64a2ebb')
       })
   })
 })

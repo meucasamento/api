@@ -14,7 +14,7 @@ class GuestValidator extends RequestValidator {
     param('id')
       .exists().withMessage('O campo id é obrigatório')
       .custom(id => {
-        return this.guestRepository.exists({ _id: id }).then((exists) => {
+        return this.guestRepository.exists({ id }).then((exists) => {
           if (!exists) {
             throw new Error('O convidado não existe')
           }

@@ -13,7 +13,7 @@ const app = new App(server, RepositoryFactory, MailService)
 app.setup()
 
 describe('Dashboard', () => {
-  it('Require authentication', () => {
+  it('Authentication is required', () => {
     request(server)
       .get('/api/v1/dashboard/report')
       .expect(401)

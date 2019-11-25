@@ -41,7 +41,9 @@ class GuestRepositoryMock implements GuestRepositoryInterface {
   }
 
   exists (query: object): Promise<boolean> {
-    throw new Error('Method not implemented.')
+    const { id } = query as GuestInterface
+    const guest = this.fakeGuests().find(person => person.id === id)
+    return Promise.resolve(guest !== undefined)
   }
 
   store (object: GuestInterface): Promise<GuestInterface> {
