@@ -48,7 +48,7 @@ describe('Guests', () => {
   })
 })
 
-describe('Guest Invitation', () => {
+describe('Guest invitation', () => {
   it('Authentication is required', () => {
     request(server)
       .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
@@ -94,6 +94,54 @@ describe('Guest Invitation', () => {
         expect(errors[0].param).to.be.equal('id')
         expect(errors[0].location).to.be.equal('params')
         expect(errors[0].value).to.be.equal('5dc9319f5187692e3d64a2ebb')
+      })
+  })
+
+  it('Mark invitation with delivered', () => {
+    request(server)
+      .patch('/api/v1/guests/0/invitation')
+      .set('authorization', token)
+      .send({
+        status: true
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          id,
+          name,
+          invitationDelivered
+        } = res.body
+
+        expect(id).to.be.equal('0')
+        expect(name).to.be.equal('Jonatas')
+        expect(invitationDelivered).to.be.equal(true)
+      })
+  })
+
+  it('Mark invitation with undelivered', () => {
+    request(server)
+      .patch('/api/v1/guests/2/invitation')
+      .set('authorization', token)
+      .send({
+        status: false
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          id,
+          name,
+          invitationDelivered
+        } = res.body
+
+        expect(id).to.be.equal('2')
+        expect(name).to.be.equal('Ebert')
+        expect(invitationDelivered).to.be.equal(false)
       })
   })
 })

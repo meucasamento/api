@@ -18,8 +18,10 @@ class GuestRepositoryMock implements GuestRepositoryInterface {
     })
   }
 
-  invitation (id: string, status: boolean): Promise<GuestInterface> {
-    throw new Error('Method not implemented.')
+  async invitation (id: string, status: boolean): Promise<GuestInterface> {
+    const guest = await this.findOne({ id })
+    guest.invitationDelivered = status
+    return Promise.resolve(guest)
   }
 
   find (query?: object, page?: number, limit?: number, populate?: string | object): Promise<PaginateResult<GuestInterface>> {
@@ -36,13 +38,15 @@ class GuestRepositoryMock implements GuestRepositoryInterface {
     return Promise.resolve(result)
   }
 
-  findOne (query: object, select?: string | object, projection?: string | object): Promise<GuestInterface> {
-    throw new Error('Method not implemented.')
-  }
-
-  exists (query: object): Promise<boolean> {
+  async findOne (query: object, select?: string | object, projection?: string | object): Promise<GuestInterface> {
     const { id } = query as GuestInterface
     const guest = this.fakeGuests().find(person => person.id === id)
+    return Promise.resolve(guest)
+  }
+
+  async exists (query: object): Promise<boolean> {
+    const { id } = (query as GuestInterface)
+    const guest = await this.findOne({ id })
     return Promise.resolve(guest !== undefined)
   }
 

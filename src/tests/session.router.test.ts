@@ -66,7 +66,7 @@ describe('Authentication', () => {
   })
 })
 
-describe('Reset Password', () => {
+describe('Reset password', () => {
   it('Must be return status code 200', (done) => {
     request(server)
       .post('/api/v1/session/reset_password')
