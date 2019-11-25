@@ -26,7 +26,12 @@ class GuestController {
     const { id } = req.params
 
     try {
-      const guest = await this.repository.findOne({ _id: id })
+      const guest = await this.repository.findOne({ id })
+
+      if (!guest) {
+        return res.status(404).send()
+      }
+
       return res.send(guest)
     } catch (error) {
       next(error)
@@ -103,6 +108,11 @@ class GuestController {
 
     try {
       const guest = await this.repository.invitation(id, status)
+
+      if (!guest) {
+        return res.status(404).send()
+      }
+
       return res.send(guest)
     } catch (error) {
       next(error)
@@ -115,6 +125,11 @@ class GuestController {
 
     try {
       const guest = await this.repository.update(id, { isActive: status })
+
+      if (!guest) {
+        return res.status(404).send()
+      }
+
       return res.send(guest)
     } catch (error) {
       next(error)

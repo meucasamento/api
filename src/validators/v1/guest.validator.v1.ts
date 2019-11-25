@@ -10,21 +10,6 @@ class GuestValidator extends RequestValidator {
     this.guestRepository = guestRepository
   }
 
-  findOne = [
-    param('id')
-      .exists().withMessage('O campo id é obrigatório')
-      .custom(id => {
-        return this.guestRepository.exists({ id }).then((exists) => {
-          if (!exists) {
-            throw new Error('O convidado não existe')
-          }
-          return true
-        }).catch((error) => {
-          throw error
-        })
-      })
-  ]
-
   store = [
     check('name')
       .exists().withMessage('O campo nome é obrigatório')
@@ -56,7 +41,7 @@ class GuestValidator extends RequestValidator {
       })
   ]
 
-  update = this.findOne.concat([
+  update = [
     check('name')
       .exists().withMessage('O campo nome é obrigatório')
       .isLength({ min: 3 }).withMessage('O campo nome deve conter ao menos 3 caracteres'),
@@ -87,17 +72,15 @@ class GuestValidator extends RequestValidator {
           throw error
         })
       })
-  ])
+  ]
 
-  invitation = this.findOne.concat([
+  invitation = [
     check('status')
       .exists().withMessage('O campo status é obrigatório')
       .isBoolean().withMessage('O campo status deve conter um valor do tipo boolean')
-  ])
+  ]
 
   active = this.invitation
-
-  delete = this.findOne
 }
 
 export default GuestValidator

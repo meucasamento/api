@@ -20,8 +20,13 @@ class GuestRepositoryMock implements GuestRepositoryInterface {
 
   async invitation (id: string, status: boolean): Promise<GuestInterface> {
     const guest = await this.findOne({ id })
-    guest.invitationDelivered = status
-    return Promise.resolve(guest)
+
+    if (guest) {
+      guest.invitationDelivered = status
+      return Promise.resolve(guest)
+    } else {
+      return Promise.resolve(undefined)
+    }
   }
 
   find (query?: object, page?: number, limit?: number, populate?: string | object): Promise<PaginateResult<GuestInterface>> {

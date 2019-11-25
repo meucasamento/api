@@ -79,21 +79,16 @@ describe('Guest invitation', () => {
       })
   })
 
-  it('Existing user required', () => {
+  it('Existing guest required', () => {
     request(server)
       .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
       .set('authorization', token)
-      .expect(422)
-      .expect('Content-Type', /json/)
-      .end((err, res) => {
+      .send({
+        status: true
+      })
+      .expect(404)
+      .end((err) => {
         if (err) { throw err }
-
-        const { errors } = res.body
-
-        expect(errors[0].msg).to.be.equal('O convidado não existe')
-        expect(errors[0].param).to.be.equal('id')
-        expect(errors[0].location).to.be.equal('params')
-        expect(errors[0].value).to.be.equal('5dc9319f5187692e3d64a2ebb')
       })
   })
 
