@@ -97,7 +97,7 @@ describe('Guest invitation', () => {
       })
   })
 
-  it('Mark invitation with delivered', () => {
+  it('Mark invitation as delivered', () => {
     request(server)
       .patch('/api/v1/guests/0/invitation')
       .set('authorization', token)
@@ -121,7 +121,7 @@ describe('Guest invitation', () => {
       })
   })
 
-  it('Mark invitation with undelivered', () => {
+  it('Mark invitation as undelivered', () => {
     request(server)
       .patch('/api/v1/guests/2/invitation')
       .set('authorization', token)
