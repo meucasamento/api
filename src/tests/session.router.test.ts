@@ -32,17 +32,14 @@ describe('Authentication', () => {
       })
   })
 
-  it('Should return status code 401 from authentication failed', () => {
+  it('Should return status code 401 from authentication failed', (done) => {
     request(server)
       .post('/api/v1/session/authentication')
       .send({
         email: 'guest@gmail.com',
         password: '123'
       })
-      .expect(401)
-      .end((err) => {
-        if (err) { throw err }
-      })
+      .expect(401, done)
   })
 
   it('Validation consistency', () => {
@@ -120,8 +117,8 @@ describe('Reset password', () => {
   })
 })
 
-describe('Register', () => {
-  it('Must be return status code 200', () => {
+describe('Session register', () => {
+  it('Return user infos after user store successful', () => {
     request(server)
       .post('/api/v1/session/register')
       .send({

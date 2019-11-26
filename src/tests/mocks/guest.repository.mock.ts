@@ -56,7 +56,7 @@ class GuestRepositoryMock implements GuestRepositoryInterface {
   }
 
   store (object: GuestInterface): Promise<GuestInterface> {
-    throw new Error('Method not implemented.')
+    return Promise.resolve(object)
   }
 
   update (id: string, data: object): Promise<GuestInterface> {

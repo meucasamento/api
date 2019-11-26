@@ -15,13 +15,10 @@ app.setup()
 const { token } = TokenManager.signUser('abb123')
 
 describe('Guests', () => {
-  it('Authentication is required', () => {
+  it('Authentication is required', (done) => {
     request(server)
       .get('/api/v1/guests')
-      .expect(401)
-      .end((err) => {
-        if (err) { throw err }
-      })
+      .expect(401, done)
   })
 
   it('Retrieve guests', () => {
@@ -46,16 +43,39 @@ describe('Guests', () => {
         expect(items[3].name).to.be.equal('Sarah')
       })
   })
+
+  it('Retrieve guest', () => {
+    request(server)
+      .get('/api/v1/guests/0')
+      .set('authorization', token)
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          id,
+          name
+        } = res.body
+
+        expect(id).to.be.equal('0')
+        expect(name).to.be.equal('Jonatas')
+      })
+  })
+
+  it('Status code must be equal to 404 when guest does not exist', (done) => {
+    request(server)
+      .get('/api/v1/guests/5dc9319f5187692e3d64a2ebb')
+      .set('authorization', token)
+      .expect(404, done)
+  })
 })
 
 describe('Guest invitation', () => {
-  it('Authentication is required', () => {
+  it('Authentication is required', (done) => {
     request(server)
       .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
-      .expect(401)
-      .end((err) => {
-        if (err) { throw err }
-      })
+      .expect(401, done)
   })
 
   it('Send invitation should require status', () => {
@@ -79,17 +99,14 @@ describe('Guest invitation', () => {
       })
   })
 
-  it('Existing guest required', () => {
+  it('Status code must be 404 when guest does note exist', (done) => {
     request(server)
       .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
       .set('authorization', token)
       .send({
         status: true
       })
-      .expect(404)
-      .end((err) => {
-        if (err) { throw err }
-      })
+      .expect(404, done)
   })
 
   it('Mark invitation as delivered', () => {
@@ -137,6 +154,95 @@ describe('Guest invitation', () => {
         expect(id).to.be.equal('2')
         expect(name).to.be.equal('Ebert')
         expect(invitationDelivered).to.be.equal(false)
+      })
+  })
+})
+
+describe('Guest register', () => {
+  it('Authentication is required', (done) => {
+    request(server)
+      .post('/api/v1/guests')
+      .expect(401, done)
+  })
+
+  it('Return guest infos after store successful', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'Ana Paula',
+        email: 'ana.paula@gmail.com'
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          name,
+          email
+        } = res.body
+
+        expect(name).to.be.equal('Ana Paula')
+        expect(email).to.be.equal('ana.paula@gmail.com')
+      })
+  })
+
+  it('Name must be required', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('O campo nome é obrigatório')
+        expect(errors[0].param).to.be.equal('name')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
+
+  it('Name must be longer than 3 characters', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'ad'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('O campo nome deve conter ao menos 3 caracteres')
+        expect(errors[0].param).to.be.equal('name')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
+
+  it('Email must be valid', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'Adriano',
+        email: 'adriano.souza.com.br'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[0].param).to.be.equal('email')
+        expect(errors[0].location).to.be.equal('body')
       })
   })
 })
