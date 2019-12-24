@@ -11,11 +11,11 @@ class Config implements ConfigInterface {
   mailgunDomain: string
 
   constructor () {
-    this.setupEnvironmentOrigin()
+    this.setupEnvironments()
     this.setupProperties()
   }
 
-  private setupEnvironmentOrigin (): void {
+  private setupEnvironments (): void {
     dotenv.config()
     let path: string
     switch (process.env.NODE_ENV) {
