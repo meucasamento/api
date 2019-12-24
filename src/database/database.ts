@@ -1,10 +1,12 @@
 import mongoose from 'mongoose'
-import config from './../config'
+import config from './../config/env'
 
 class Database {
   setup (): void {
     mongoose.set('useCreateIndex', true)
     mongoose.set('useFindAndModify', false)
+
+    console.log(config)
 
     mongoose.connect(config.mongoURL, {
       useUnifiedTopology: true,

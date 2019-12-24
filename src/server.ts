@@ -1,7 +1,7 @@
 import express from 'express'
 
 import App from './app'
-import config from './config'
+import config from './config/env'
 import mailgunService from './utils/components/mail/mailgun.service'
 import database from './database/database'
 import repositoryFactory from './factories/v1/repository.factory.v1'

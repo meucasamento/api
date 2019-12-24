@@ -245,4 +245,25 @@ describe('Guest register', () => {
         expect(errors[0].location).to.be.equal('body')
       })
   })
+
+  it('Email must be unique', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'Jonatas Castro',
+        email: 'jonatas@gmail.com'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        // const { errors } = res.body
+
+        // expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        // expect(errors[0].param).to.be.equal('email')
+        // expect(errors[0].location).to.be.equal('body')
+      })
+  })
 })

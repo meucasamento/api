@@ -5,10 +5,10 @@ import GuestRepositoryInterface from '../../repositories/guests/guestRepository.
 class GuestRepositoryMock implements GuestRepositoryInterface {
   private fakeGuests (): GuestInterface[] {
     const people = [
-      { name: 'Jonatas', email: '' },
-      { name: 'Deise', email: '' },
-      { name: 'Ebert', email: '' },
-      { name: 'Sarah', email: '' }
+      { name: 'Jonatas', email: 'jonatas@gmail.com' },
+      { name: 'Deise', email: 'deise@gmail.com' },
+      { name: 'Ebert', email: 'ebert@gmail.com' },
+      { name: 'Sarah', email: 'sarah@gmail.com' }
     ]
     return people.map((person, index) => {
       return {

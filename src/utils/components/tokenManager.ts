@@ -1,5 +1,5 @@
 import * as jwt from 'jsonwebtoken'
-import config from './../../config'
+import config from './../../config/env'
 
 interface TokenPayloadInterface {
   id: string
