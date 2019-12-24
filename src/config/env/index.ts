@@ -11,22 +11,22 @@ class Config implements ConfigInterface {
   mailgunDomain: string
 
   constructor () {
-    dotenv.config()
     this.setupEnvironmentOrigin()
     this.setupProperties()
   }
 
   private setupEnvironmentOrigin (): void {
-    let path: string
+    dotenv.config()
+    let path = `${__dirname}./../../../.env.`
     switch (process.env.NODE_ENV) {
       case 'test':
-        path = `${__dirname}./../../../.env.test`
+        path += 'test'
         break
       case 'production':
-        path = `${__dirname}/../../../.env.production`
+        path += 'production'
         break
       default:
-        path = `${__dirname}/../../../.env.development`
+        path += 'development'
     }
     dotenv.config({ path })
   }
