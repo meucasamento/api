@@ -17,16 +17,16 @@ class Config implements ConfigInterface {
 
   private setupEnvironmentOrigin (): void {
     dotenv.config()
-    let path = `${__dirname}./../../../.env.`
+    let path: string
     switch (process.env.NODE_ENV) {
       case 'test':
-        path += 'test'
+        path = `${__dirname}./../../../.env.test`
         break
       case 'production':
-        path += 'production'
+        path = `${__dirname}/../../../.env.production`
         break
       default:
-        path += 'development'
+        path = `${__dirname}/../../../.env.development`
     }
     dotenv.config({ path })
   }

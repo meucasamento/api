@@ -6,8 +6,6 @@ class Database {
     mongoose.set('useCreateIndex', true)
     mongoose.set('useFindAndModify', false)
 
-    console.log(config)
-
     mongoose.connect(config.mongoURL, {
       useUnifiedTopology: true,
       useNewUrlParser: true
