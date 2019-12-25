@@ -1,7 +1,6 @@
 {
     "watch": ["src"],
     "ext": "ts",
-    "ignore": ["src/**/*.spec.ts"],
     "execMap": {
         "ts": "sucrase-node src/server.ts"
     }

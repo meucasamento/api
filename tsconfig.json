@@ -1,15 +1,18 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "moduleResolution": "node",
-    "pretty": true,
-    "sourceMap": true,
+    "esModuleInterop": true,
     "target": "es6",
-    "lib": ["dom", "esnext"],
+    "noImplicitAny": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
-    "alwaysStrict": true
+    "baseUrl": "./src"
   },
-  "include": ["src/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

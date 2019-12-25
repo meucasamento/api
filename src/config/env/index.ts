@@ -17,18 +17,18 @@ class Config implements ConfigInterface {
 
   private setupEnvironments (): void {
     dotenv.config()
-    let path: string
+    let enviroment: string
     switch (process.env.NODE_ENV) {
       case 'test':
-        path = `${__dirname}./../../../.env.test`
+        enviroment = 'test'
         break
       case 'production':
-        path = `${__dirname}/../../../.env.production`
+        enviroment = 'production'
         break
       default:
-        path = `${__dirname}/../../../.env.development`
+        enviroment = 'development'
     }
-    dotenv.config({ path })
+    dotenv.config({ path: `${__dirname}/../../../.env.${enviroment}` })
   }
 
   private setupProperties (): void {

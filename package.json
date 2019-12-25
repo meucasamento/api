@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "test": "mocha -r ts-node/register src/tests/*.test.ts",
+    "test": "NODE_ENV=test mocha -r ts-node/register src/tests/*.test.ts",
     "dev": "nodemon ts-node ./src/server.ts",
     "build": "sucrase ./src -d ./dist --transforms typescript,imports"
   },
