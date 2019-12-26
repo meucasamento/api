@@ -1,5 +1,5 @@
 export default interface ConfigInterface {
-    port: string,
+    port: number,
     authorizationPrefix: string,
     secret: string,
     tokenExpireTime: number,

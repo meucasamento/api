@@ -1,0 +1,9 @@
+version: "3"
+services:
+  api_casamento:
+    build: .
+    command: yarn dev
+    volumes:
+      - .:/app
+    ports:
+      - "3333:3333"
