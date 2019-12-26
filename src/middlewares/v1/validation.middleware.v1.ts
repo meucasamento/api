@@ -6,7 +6,6 @@ import ErrorException from './../../exceptions/error.exception'
 
 function validationMiddleware<T> (type: any, skipMissingProperties = false): RequestHandler {
   return (req: Request, res: Response, next: NextFunction) => {
-    console.log(req)
     validate(plainToClass(type, req.body), { skipMissingProperties })
       .then((errors: ValidationError[]) => {
         if (errors.length > 0) {

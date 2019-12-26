@@ -1,6 +1,6 @@
 version: "3"
 services:
-  api_casamento:
+  casamento:
     build: .
     command: yarn dev
     volumes:
