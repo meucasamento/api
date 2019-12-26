@@ -4,7 +4,7 @@ import request from 'supertest'
 import express from 'express'
 
 import App from '../app'
-import RepositoryFactory from './mocks/repository.factory.mock'
+import RepositoryFactory from './../factories/v1/repository.factory.v1'
 import MailService from './mocks/mail.service.mock'
 import TokenManager from '../utils/components/tokenManager'
 
