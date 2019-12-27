@@ -9,7 +9,7 @@ COPY package.json ./
 COPY yarn.lock ./
 
 # Install libraries
-RUN yarn && yarn global add typescript ts-node
+RUN yarn install
 
 # Bundle app source
 COPY . .
