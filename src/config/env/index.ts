@@ -6,7 +6,7 @@ class Config implements ConfigInterface {
   secret: string
   tokenExpireTime: number
   port: number
-  mongoURL: string
+  mongodbURI: string
   mailgunApiKey: string
   mailgunDomain: string
 
@@ -26,7 +26,7 @@ class Config implements ConfigInterface {
     this.secret = process.env.SECRET
     this.tokenExpireTime = 3600
     this.port = Number(process.env.PORT || 3333)
-    this.mongoURL = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASSWORD}${process.env.MONGO_PATH}`
+    this.mongodbURI = process.env.MONGODB_URI
     this.mailgunApiKey = process.env.MAILGUN_API_KEY
     this.mailgunDomain = process.env.MAILGUN_DOMAIN
   }

@@ -3,7 +3,7 @@ export default interface ConfigInterface {
     authorizationPrefix: string,
     secret: string,
     tokenExpireTime: number,
-    mongoURL: string,
+    mongodbURI: string,
     mailgunApiKey: string,
     mailgunDomain: string
 }

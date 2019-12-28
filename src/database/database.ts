@@ -3,29 +3,31 @@ import config from './../config/env'
 
 class Database {
   setup (): void {
+    const uri = config.mongodbURI
+
     mongoose.set('useCreateIndex', true)
     mongoose.set('useFindAndModify', false)
 
-    mongoose.connect(config.mongoURL, {
+    mongoose.connect(uri, {
       useUnifiedTopology: true,
       useNewUrlParser: true
     })
 
-    mongoose.connection.on('connected', function () {
-      console.log(`Mongoose default connection open to ${config.mongoURL}`)
+    mongoose.connection.on('error', (err) => {
+      console.log('Erro: ', err)
     })
 
-    mongoose.connection.on('error', function (err) {
-      console.log(`Mongoose default connection error: ${err}`)
+    mongoose.connection.on('connected', () => {
+      console.log('Conectado ao MongoDB')
     })
 
-    mongoose.connection.on('disconnected', function () {
-      console.log('Mongoose default connection disconnected')
+    mongoose.connection.on('disconnected', () => {
+      console.log('Desconetado do MongoDB')
     })
 
-    process.on('SIGINT', function () {
-      mongoose.connection.close(function () {
-        console.log('Mongoose default connection disconnected through app termination')
+    process.on('SIGINT', () => {
+      mongoose.connection.close(() => {
+        console.log('Conexão Encerrada')
         process.exit(0)
       })
     })
