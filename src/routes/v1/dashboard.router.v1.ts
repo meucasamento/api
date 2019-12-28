@@ -14,7 +14,7 @@ class DashboardRouter extends RouterInterface {
 
     private setup = (): void => {
       this.router.use('/dashboard', Auth.checkToken)
-      this.router.get('/dashboard/reporte', this.controller.report)
+      this.router.get('/dashboard/report', this.controller.report)
     }
 }
 
