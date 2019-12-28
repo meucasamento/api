@@ -22,6 +22,6 @@ services:
     container_name: "MONGO"
     restart: always
     volumes:
-      - './dockervolume/mongodb:/data/db'
+      - ./dockervolume/mongodb:/data/db
     ports:
       - 27017:27017
