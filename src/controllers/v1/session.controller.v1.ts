@@ -24,11 +24,10 @@ class SessionController {
     } = req.body
 
     try {
-      const encryptedPassword = await Encryption.hash(password)
       const user = await this.userRepository.store({
         name,
         email,
-        password: encryptedPassword
+        password: password
       } as UserInterface)
       return res.send(user)
     } catch (error) {
