@@ -5,7 +5,7 @@ import UserRouter from './user.router.v1'
 import GuestRouter from './guest.router.v1'
 import DashboardRouter from './dashboard.router.v1'
 import SessionRoutes from './session.router.v1'
-import MailServiceInterface from '../../utils/components/Mail/Mail.service.interface'
+import MailServiceInterface from './../../utils/components/mail/mail.service.interface'
 
 class RouterV1 extends RouterInterface {
     private routers: RouterInterface[]
