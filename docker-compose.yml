@@ -4,6 +4,7 @@ services:
   api:
     container_name: api-casamento
     build: .
+    restart: always
     command: yarn dev
     volumes:
       - .:/app
@@ -12,7 +13,6 @@ services:
       - "3333:3333"
     environment:
       - PORT=3333
-      - MONGODB_URI=mongodb://mongodb:27017/api_casamento
     depends_on: 
       - mongodb
 
