@@ -30,7 +30,10 @@ function createSampleGuests (): void {
   ]
 
   people.forEach(name => {
-    const guest = new GuestModel({ name })
+    const guest = new GuestModel({
+      name,
+      email: `${name.toLowerCase()}@gmail.com`
+    })
     guest.save()
   })
 }
@@ -221,112 +224,112 @@ describe('Guest invitation', () => {
   })
 })
 
-// describe('Guest register', () => {
-//   it('Authentication is required', (done) => {
-//     request(server)
-//       .post('/api/v1/guests')
-//       .expect(401, done)
-//   })
+describe('Guest register', () => {
+  it('Authentication is required', (done) => {
+    request(server)
+      .post('/api/v1/guests')
+      .expect(401, done)
+  })
 
-//   it('Return guest infos after store successful', () => {
-//     request(server)
-//       .post('/api/v1/guests')
-//       .set('authorization', token)
-//       .send({
-//         name: 'Ana Paula',
-//         email: 'ana.paula@gmail.com'
-//       })
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Return guest infos after store successful', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'Ana Paula',
+        email: 'ana.paula@gmail.com'
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         const {
-//           name,
-//           email
-//         } = res.body
+        const {
+          name,
+          email
+        } = res.body
 
-//         expect(name).to.be.equal('Ana Paula')
-//         expect(email).to.be.equal('ana.paula@gmail.com')
-//       })
-//   })
+        expect(name).to.be.equal('Ana Paula')
+        expect(email).to.be.equal('ana.paula@gmail.com')
+      })
+  })
 
-//   it('Name must be required', () => {
-//     request(server)
-//       .post('/api/v1/guests')
-//       .set('authorization', token)
-//       .expect(422)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Name must be required', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         const { errors } = res.body
+        const { errors } = res.body
 
-//         expect(errors[0].msg).to.be.equal('O campo nome é obrigatório')
-//         expect(errors[0].param).to.be.equal('name')
-//         expect(errors[0].location).to.be.equal('body')
-//       })
-//   })
+        expect(errors[0].msg).to.be.equal('O campo nome é obrigatório')
+        expect(errors[0].param).to.be.equal('name')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
 
-//   it('Name must be longer than 3 characters', () => {
-//     request(server)
-//       .post('/api/v1/guests')
-//       .set('authorization', token)
-//       .send({
-//         name: 'ad'
-//       })
-//       .expect(422)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Name must be longer than 3 characters', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'ad'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         const { errors } = res.body
+        const { errors } = res.body
 
-//         expect(errors[0].msg).to.be.equal('O campo nome deve conter ao menos 3 caracteres')
-//         expect(errors[0].param).to.be.equal('name')
-//         expect(errors[0].location).to.be.equal('body')
-//       })
-//   })
+        expect(errors[0].msg).to.be.equal('O campo nome deve conter ao menos 3 caracteres')
+        expect(errors[0].param).to.be.equal('name')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
 
-//   it('Email must be valid', () => {
-//     request(server)
-//       .post('/api/v1/guests')
-//       .set('authorization', token)
-//       .send({
-//         name: 'Adriano',
-//         email: 'adriano.souza.com.br'
-//       })
-//       .expect(422)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Email must be valid', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'Adriano',
+        email: 'adriano.souza.com.br'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         const { errors } = res.body
+        const { errors } = res.body
 
-//         expect(errors[0].msg).to.be.equal('Deve conter um email válido')
-//         expect(errors[0].param).to.be.equal('email')
-//         expect(errors[0].location).to.be.equal('body')
-//       })
-//   })
+        expect(errors[0].msg).to.be.equal('Deve conter um email válido')
+        expect(errors[0].param).to.be.equal('email')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
 
-//   it('Email must be unique', () => {
-//     request(server)
-//       .post('/api/v1/guests')
-//       .set('authorization', token)
-//       .send({
-//         name: 'Jonatas Castro',
-//         email: 'jonatas@gmail.com'
-//       })
-//       .expect(422)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Email must be unique', () => {
+    request(server)
+      .post('/api/v1/guests')
+      .set('authorization', token)
+      .send({
+        name: 'Jonatas Castro',
+        email: 'jonatas@gmail.com'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         // const { errors } = res.body
+        const { errors } = res.body
 
-//         // expect(errors[0].msg).to.be.equal('Deve conter um email válido')
-//         // expect(errors[0].param).to.be.equal('email')
-//         // expect(errors[0].location).to.be.equal('body')
-//       })
-//   })
-// })
+        expect(errors[0].msg).to.be.equal('O email já está sendo utilizado')
+        expect(errors[0].param).to.be.equal('email')
+        expect(errors[0].location).to.be.equal('body')
+      })
+  })
+})
