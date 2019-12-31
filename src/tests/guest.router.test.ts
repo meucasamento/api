@@ -123,92 +123,103 @@ describe('Guests', () => {
   })
 })
 
-// describe('Guest invitation', () => {
-//   it('Authentication is required', (done) => {
-//     request(server)
-//       .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
-//       .expect(401, done)
-//   })
+describe('Guest invitation', () => {
+  it('Authentication is required', (done) => {
+    request(server)
+      .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
+      .expect(401, done)
+  })
 
-//   it('Send invitation should require status', () => {
-//     request(server)
-//       .patch('/api/v1/guests/1/invitation')
-//       .set('authorization', token)
-//       .expect(422)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Send invitation should require status', async () => {
+    const guests = await GuestModel.find()
+    const id = guests[0].id
 
-//         const { errors } = res.body
+    request(server)
+      .patch(`/api/v1/guests/${id}/invitation`)
+      .set('authorization', token)
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         expect(errors[0].msg).to.be.equal('O campo status é obrigatório')
-//         expect(errors[0].param).to.be.equal('status')
-//         expect(errors[0].location).to.be.equal('body')
+        const { errors } = res.body
 
-//         expect(errors[1].msg).to.be.equal('O campo status deve conter um valor do tipo boolean')
-//         expect(errors[1].param).to.be.equal('status')
-//         expect(errors[1].location).to.be.equal('body')
-//       })
-//   })
+        expect(errors[0].msg).to.be.equal('O campo status é obrigatório')
+        expect(errors[0].param).to.be.equal('status')
+        expect(errors[0].location).to.be.equal('body')
 
-//   it('Status code must be 404 when guest does note exist', (done) => {
-//     request(server)
-//       .patch('/api/v1/guests/5dc9319f5187692e3d64a2ebb/invitation')
-//       .set('authorization', token)
-//       .send({
-//         status: true
-//       })
-//       .expect(404, done)
-//   })
+        expect(errors[1].msg).to.be.equal('O campo status deve conter um valor do tipo boolean')
+        expect(errors[1].param).to.be.equal('status')
+        expect(errors[1].location).to.be.equal('body')
+      })
+  })
 
-//   it('Mark invitation as delivered', () => {
-//     request(server)
-//       .patch('/api/v1/guests/0/invitation')
-//       .set('authorization', token)
-//       .send({
-//         status: true
-//       })
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+  it('Status code must be 404 when guest does note exist', (done) => {
+    const id = mongoose.Types.ObjectId()
 
-//         const {
-//           id,
-//           name,
-//           invitationDelivered
-//         } = res.body
+    request(server)
+      .patch(`/api/v1/guests/${id}/invitation`)
+      .set('authorization', token)
+      .send({
+        status: true
+      })
+      .expect(404, done)
+  })
 
-//         expect(id).to.be.equal('0')
-//         expect(name).to.be.equal('Jonatas')
-//         expect(invitationDelivered).to.be.equal(true)
-//       })
-//   })
+  it('Mark invitation as delivered', async () => {
+    const guests = await GuestModel.find()
+    const identifier = guests[0].id
 
-//   it('Mark invitation as undelivered', () => {
-//     request(server)
-//       .patch('/api/v1/guests/2/invitation')
-//       .set('authorization', token)
-//       .send({
-//         status: false
-//       })
-//       .expect(200)
-//       .expect('Content-Type', /json/)
-//       .end((err, res) => {
-//         if (err) { throw err }
+    request(server)
+      .patch(`/api/v1/guests/${identifier}/invitation`)
+      .set('authorization', token)
+      .send({
+        status: true
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
 
-//         const {
-//           id,
-//           name,
-//           invitationDelivered
-//         } = res.body
+        const {
+          _id,
+          name,
+          invitationDelivered
+        } = res.body
 
-//         expect(id).to.be.equal('2')
-//         expect(name).to.be.equal('Ebert')
-//         expect(invitationDelivered).to.be.equal(false)
-//       })
-//   })
-// })
+        expect(identifier).to.be.equal(_id)
+        expect('Jonatas').to.be.equal(name)
+        expect(true).to.be.equal(invitationDelivered)
+      })
+  })
+
+  it('Mark invitation as undelivered', async () => {
+    const guests = await GuestModel.find()
+    const identifier = guests[1].id
+
+    request(server)
+      .patch(`/api/v1/guests/${identifier}/invitation`)
+      .set('authorization', token)
+      .send({
+        status: false
+      })
+      .expect(200)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          _id,
+          name,
+          invitationDelivered
+        } = res.body
+
+        expect(identifier).to.be.equal(_id)
+        expect('Deise').to.be.equal(name)
+        expect(false).to.be.equal(invitationDelivered)
+      })
+  })
+})
 
 // describe('Guest register', () => {
 //   it('Authentication is required', (done) => {
