@@ -38,9 +38,9 @@ class UserController {
     const { name, email } = req.body
 
     try {
-      const { id } = await TokenManager.verify(token)
-      const userUpdated = await this.repository.update(id, { name, email })
-      const newToken = TokenManager.signUser(id)
+      const { _id } = await TokenManager.verify(token)
+      const userUpdated = await this.repository.update(_id, { name, email })
+      const newToken = TokenManager.signUser(_id)
       return res.send({
         user: userUpdated,
         token: newToken
@@ -55,9 +55,9 @@ class UserController {
     const { newPassword } = req.body
 
     try {
-      const { id } = TokenManager.verify(token)
-      await this.repository.changePassword(id, newPassword)
-      const updatedToken = await TokenManager.signUser(id)
+      const { _id } = TokenManager.verify(token)
+      await this.repository.changePassword(_id, newPassword)
+      const updatedToken = await TokenManager.signUser(_id)
       return res.send(updatedToken)
     } catch (error) {
       next(error)

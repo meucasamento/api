@@ -6,7 +6,7 @@ import tokenManager from '../utils/components/tokenManager'
 describe('TokenManager', () => {
   it('Should generate token hash and time expiration', () => {
     try {
-      const user = { id: 'ab123', name: 'Adriano' }
+      const user = { _id: 'ab123', name: 'Adriano' }
       const { token, expiresIn } = tokenManager.sign(user)
       expect(token).not.equal(null)
       expect(expiresIn).not.equals(null)
@@ -17,10 +17,10 @@ describe('TokenManager', () => {
 
   it('Extract correctly id from token hash', () => {
     try {
-      const user = { id: 'ab123', name: 'Adriano' }
+      const user = { _id: 'ab123', name: 'Adriano' }
       const { token } = tokenManager.sign(user)
       const tokenData = tokenManager.verify(token)
-      expect(tokenData.id).to.be.equal('ab123')
+      expect(tokenData._id).to.be.equal('ab123')
     } catch (error) {
       assert.fail(error)
     }
@@ -30,7 +30,7 @@ describe('TokenManager', () => {
     try {
       const { token } = tokenManager.signUser('ab123')
       const tokenData = tokenManager.verify(token)
-      expect(tokenData.id).to.be.equal('ab123')
+      expect(tokenData._id).to.be.equal('ab123')
     } catch (error) {
       assert.fail(error)
     }
@@ -38,7 +38,7 @@ describe('TokenManager', () => {
 
   it('Must be not extract data from invalid token', () => {
     try {
-      const user = { id: 'ab123', name: 'Adriano' }
+      const user = { _id: 'ab123', name: 'Adriano' }
       const { token } = tokenManager.sign(user)
       tokenManager.verify(token + 'sdfsdf')
       assert.fail()

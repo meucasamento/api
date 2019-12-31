@@ -34,9 +34,9 @@ class UserValidator extends RequestValidator {
     check('email')
       .isEmail().bail().withMessage('Deve conter um email válido')
       .custom((email, { req }) => {
-        const { id } = TokenManager.verify(req.headers.authorization)
+        const { _id } = TokenManager.verify(req.headers.authorization)
         return this.userRepository.findOne({ email }).then(user => {
-          if (!user || user.id === id) {
+          if (!user || user.id === _id) {
             return true
           } else {
             throw new Error('O email já está sendo utilizado')

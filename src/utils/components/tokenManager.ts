@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken'
 import config from './../../config/env'
 
 interface TokenPayloadInterface {
-  id: string
+  _id: string
 }
 
 interface TokenResponseInterface {
@@ -32,7 +32,7 @@ class TokenManager {
   }
 
   signUser (id: string): TokenResponseInterface {
-    return this.sign({ id })
+    return this.sign({ _id: id })
   }
 }
 
