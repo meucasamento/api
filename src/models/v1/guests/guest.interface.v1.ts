@@ -1,7 +1,7 @@
 import { Document } from 'mongoose'
 
 export default interface GuestInterface extends Document {
-    id: string
+    _id: string
     name: string
     phone?: string
     email?: string

@@ -1,7 +1,7 @@
 import { Document } from 'mongoose'
 
 export default interface UserInterface extends Document {
-    id: string
+    _id: string
     createdIn: number
     updatedIn: number
     name: string
