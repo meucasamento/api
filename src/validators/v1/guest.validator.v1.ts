@@ -1,4 +1,4 @@
-import { check, param } from 'express-validator'
+import { check } from 'express-validator'
 import RequestValidator from '../request.validator'
 import GuestRepositoryInterface from '../../repositories/guests/guestRepository.interface'
 

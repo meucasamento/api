@@ -3,6 +3,7 @@ import helmet from 'helmet'
 import bodyParser from 'body-parser'
 import { Application, json } from 'express'
 
+import Database from './database/database'
 import RepositoryFactoryInteface from './factories/v1/repository.factory.interface.v1'
 import RoutesV1 from './routes/v1/router.v1'
 import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
@@ -22,6 +23,7 @@ class App {
   }
 
   public setup (): void {
+    Database.setup()
     this.middlewares()
     this.routes()
   }

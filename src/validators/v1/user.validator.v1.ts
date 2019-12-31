@@ -14,6 +14,7 @@ class UserValidator extends RequestValidator {
   findOne = [
     param('id')
       .exists().withMessage('O campo id é obrigatório')
+      // .matches('/^[0-9a-fA-F]{12}$/').withMessage('O deve estar no formáto válido')
       .custom(id => {
         return this.userRepository.exists({ _id: id }).then((exists) => {
           if (!exists) {

@@ -18,16 +18,16 @@ class Database {
     })
 
     mongoose.connection.on('connected', () => {
-      console.log('Conectado ao MongoDB')
+      if (process.env.NODE_ENV === 'test') { return }
+      console.log(`Conectado a ${uri}`)
     })
 
     mongoose.connection.on('disconnected', () => {
-      console.log('Desconetado do MongoDB')
+      console.log(`Desconetado de ${uri}`)
     })
 
     process.on('SIGINT', () => {
       mongoose.connection.close(() => {
-        console.log('Conexão Encerrada')
         process.exit(0)
       })
     })

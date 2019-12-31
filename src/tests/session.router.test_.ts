@@ -3,10 +3,10 @@ import { expect } from 'chai'
 import request from 'supertest'
 import express from 'express'
 
-import App from './../app'
-import RepositoryFactory from './../factories/v1/repository.factory.v1'
+import App from '../app'
+import RepositoryFactory from '../factories/v1/repository.factory.v1'
 import MailService from './mocks/mail.service.mock'
-import TokenManager from './../utils/components/tokenManager'
+import TokenManager from '../utils/components/tokenManager'
 
 const server = express()
 const app = new App(server, RepositoryFactory, MailService)
