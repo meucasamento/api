@@ -36,7 +36,9 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
 
   findOne = async (query: object, select?: object | string, projection?: object | string): Promise<T> => {
     try {
-      const result = await this.model.findOne(query)
+      const result = await this.model
+        .findOne(query, projection)
+        .select(select)
       return Promise.resolve(result)
     } catch (err) {
       console.log(err)
