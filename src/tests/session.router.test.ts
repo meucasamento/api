@@ -7,7 +7,7 @@ import App from '../app'
 import RepositoryFactory from '../factories/v1/repository.factory.v1'
 import MailService from './mocks/mail.service.mock'
 import UserModel from './../models/v1/users/user.model.v1'
-import encryption from './../utils/encryption'
+import Encryption from './../utils/encryption'
 
 const server = express()
 const app = new App(server, RepositoryFactory, MailService)
@@ -27,7 +27,7 @@ function createSampleGuests (): void {
     const user = new UserModel({
       name,
       email: `${name.toLowerCase()}@gmail.com`,
-      password: await encryption.hash('12345678')
+      password: await Encryption.hash('12345678')
     })
     user.save()
   })
