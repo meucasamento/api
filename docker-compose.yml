@@ -4,6 +4,7 @@ services:
   api:
     container_name: api-casamento
     build: .
+    command: yarn prod
     restart: always
     volumes:
       - .:/app
