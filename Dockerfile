@@ -7,13 +7,16 @@ WORKDIR /app
 # Install app dependencies
 COPY package.json ./
 COPY yarn.lock ./
+COPY tsconfig.json ./
 
 # Install libraries
 RUN yarn install
+RUN yarn global add pm2
+RUN yarn build
 
 # Bundle app source
-COPY . .
-COPY --chown=node:node . .
+COPY ./dist .
 
 EXPOSE 3333
-CMD [ "yarn", "prod" ]
+
+CMD [ "pm2-runtime", "app.js" ]

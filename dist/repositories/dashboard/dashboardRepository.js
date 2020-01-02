@@ -29,7 +29,6 @@ class DashboardRepository {
                     undeliverableInvitations: totalUndelivered
                 };
                 console.log(result);
-                console.log(totalGodfathers);
                 return Promise.resolve(report);
             }
             catch (err) {
