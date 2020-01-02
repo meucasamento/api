@@ -8,15 +8,17 @@ class DashboardRepository implements DashboardRepositoryInterface {
       const result = await GuestModel.find()
 
       const totalGuests = result.length
-      const totalGodparents = result.filter(guest => { return guest.isGodfather }).length
+      const totalGodfathers = result.filter(guest => { return guest.isGodfather }).length
       const totalDelivered = result.filter(guest => { return guest.invitationDelivered }).length
       const totalUndelivered = result.filter(guest => { return !guest.invitationDelivered }).length
       const report = {
         guests: totalGuests,
-        godparents: totalGodparents,
+        godfathers: totalGodfathers,
         invitationsDelivered: totalDelivered,
         undeliverableInvitations: totalUndelivered
       }
+
+      console.log(result)
 
       return Promise.resolve(report)
     } catch (err) {

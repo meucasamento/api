@@ -20,7 +20,7 @@ async function clearDatabase (): Promise<void> {
   await GuestModel.deleteMany({})
 }
 
-function createSampleGuests (): void {
+async function createSampleGuests (): Promise<void> {
   const people = [
     'Jonatas',
     'Deise',
@@ -29,8 +29,8 @@ function createSampleGuests (): void {
     'Jenifer'
   ]
 
-  people.forEach(name => {
-    const guest = new GuestModel({
+  people.forEach(async name => {
+    const guest = await new GuestModel({
       name,
       email: `${name.toLowerCase()}@gmail.com`
     })

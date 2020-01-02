@@ -1,6 +1,6 @@
 export default interface ReportInterface {
     guests: number
-    godparents: number
+    godfathers: number
     invitationsDelivered: number
     undeliverableInvitations: number
 }
