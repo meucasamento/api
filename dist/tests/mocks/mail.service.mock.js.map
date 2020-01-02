@@ -1,0 +1,1 @@
+{"version":3,"file":"mail.service.mock.js","sourceRoot":"","sources":["../../../src/tests/mocks/mail.service.mock.ts"],"names":[],"mappings":";;AAEA,MAAM,eAAe;IACnB,IAAI,CAAE,KAAa,EAAE,OAAgB,EAAE,IAAa;QAClD,OAAO,OAAO,CAAC,OAAO,EAAE,CAAA;IAC1B,CAAC;CACF;AAED,kBAAe,IAAI,eAAe,EAAE,CAAA"}
