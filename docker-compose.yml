@@ -5,7 +5,6 @@ services:
     container_name: api-casamento
     build: .
     restart: always
-    command: yarn dev
     volumes:
       - .:/app
       - /app/node_modules/

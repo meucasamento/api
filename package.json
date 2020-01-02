@@ -6,7 +6,7 @@
   "scripts": {
     "test": "NODE_ENV=test mocha -r ts-node/register src/tests/*.test.ts",
     "dev": "NODE_ENV=development nodemon ts-node ./src/server.ts",
-    "build": "sucrase ./src -d ./dist --transforms typescript,imports"
+    "prod": "NODE_ENV=production ts-node ./src/server.ts"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
