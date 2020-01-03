@@ -7,7 +7,7 @@ class App {
   public constructor () {
     this.express = express()
     this.routes.get('/users', (req, res) => {
-      res.json({ name: 'teste' })
+      res.json({ name: 'Adriano Souza Costa' })
     })
     this.express.use(this.routes)
     this.express.use(express.json())
