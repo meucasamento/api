@@ -13,13 +13,11 @@ services:
       - PORT=3333
     depends_on: 
       - mongodb
-    command: yarn dev
+    command: yarn start
 
   # DATABASE
   mongodb:
     image: mongo
     container_name: api_mongodb
-    volumes:
-      - ./dockervolume:/data/db
     ports:
       - 27017:27017

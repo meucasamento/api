@@ -1,44 +1,17 @@
-import cors from 'cors'
-import helmet from 'helmet'
-import bodyParser from 'body-parser'
-import { Application, json } from 'express'
-
-import Database from './database/database'
-import RepositoryFactoryInteface from './factories/v1/repository.factory.interface.v1'
-import RoutesV1 from './routes/v1/router.v1'
-import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
-import RouterInterface from './routes/router.interface'
-
-import MailServiceInterface from './utils/components/mail/mail.service.interface'
+import express, { Router } from 'express'
 
 class App {
-  private server: Application
-  private routerV1: RouterInterface
+  public express: express.Application
+  private routes = Router()
 
-  constructor (server: Application,
-    repositoryFactory: RepositoryFactoryInteface,
-    emailService: MailServiceInterface) {
-    this.server = server
-    this.routerV1 = new RoutesV1(repositoryFactory, emailService)
-  }
-
-  public setup (): void {
-    Database.setup()
-    this.middlewares()
-    this.routes()
-  }
-
-  private middlewares (): void {
-    this.server.use(helmet())
-    this.server.use(json())
-    this.server.use(cors())
-    this.server.use(bodyParser.json())
-    this.server.use(ErrorMiddleware.checkError)
-  }
-
-  private routes (): void {
-    this.server.use('/api/v1', this.routerV1.router)
+  public constructor () {
+    this.express = express()
+    this.routes.get('/users', (req, res) => {
+      res.json({ name: 'teste' })
+    })
+    this.express.use(this.routes)
+    this.express.use(express.json())
   }
 }
 
-export default App
+export default new App().express
