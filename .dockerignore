@@ -1,5 +1,4 @@
 node_modules
-Dockerfile
 yarn.lock
 .dockerignore
 .gitignore
