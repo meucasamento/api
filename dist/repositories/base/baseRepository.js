@@ -1,71 +1,69 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-class BaseRepository {
-    constructor(model) {
-        this.find = (query, page, limit, populate) => __awaiter(this, void 0, void 0, function* () {
-            const options = {
-                page: page || 1,
-                limit: limit || 10,
-                populate: populate
-            };
-            try {
-                const { docs, totalDocs, limit, totalPages, page } = yield this.model.paginate(query, options);
-                const result = {
-                    items: docs,
-                    pagination: {
-                        total: totalDocs,
-                        limit: limit,
-                        page: page,
-                        pages: totalPages
-                    }
-                };
-                return Promise.resolve(result);
-            }
-            catch (err) {
-                return Promise.reject(err);
-            }
-        });
-        this.findOne = (query, select, projection) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield this.model
-                    .findOne(query, projection)
-                    .select(select);
-                return Promise.resolve(result);
-            }
-            catch (err) {
-                console.log(err);
-                return Promise.reject(err);
-            }
-        });
-        this.exists = (query) => __awaiter(this, void 0, void 0, function* () {
-            try {
-                const result = yield this.findOne(query);
-                return Promise.resolve(result != null);
-            }
-            catch (err) {
-                return Promise.resolve(false);
-            }
-        });
-        this.store = (object) => __awaiter(this, void 0, void 0, function* () {
-            return this.model.create(object);
-        });
-        this.update = (id, data) => __awaiter(this, void 0, void 0, function* () {
-            return this.model.findByIdAndUpdate({ _id: id }, data, { new: true, omitUndefined: true });
-        });
-        this.delete = (id) => __awaiter(this, void 0, void 0, function* () {
-            return this.model.findByIdAndDelete(id);
-        });
-        this.model = model;
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+
+
+
+ class BaseRepository {
+  
+
+  constructor (model) {;BaseRepository.prototype.__init.call(this);BaseRepository.prototype.__init2.call(this);BaseRepository.prototype.__init3.call(this);BaseRepository.prototype.__init4.call(this);BaseRepository.prototype.__init5.call(this);BaseRepository.prototype.__init6.call(this);
+    this.model = model
+  }
+
+  __init() {this.find = async (query, page, limit, populate) => {
+    const options = {
+      page: page || 1,
+      limit: limit || 10,
+      populate: populate
     }
-}
-exports.default = BaseRepository;
-//# sourceMappingURL=baseRepository.js.map
+
+    try {
+      const { docs, totalDocs, limit, totalPages, page } = await this.model.paginate(query, options)
+      const result = {
+        items: docs,
+        pagination: {
+          total: totalDocs,
+          limit: limit,
+          page: page,
+          pages: totalPages
+        }
+      } 
+      return Promise.resolve(result)
+    } catch (err) {
+      return Promise.reject(err)
+    }
+  }}
+
+  __init2() {this.findOne = async (query, select, projection) => {
+    try {
+      const result = await this.model
+        .findOne(query, projection)
+        .select(select)
+      return Promise.resolve(result)
+    } catch (err) {
+      console.log(err)
+      return Promise.reject(err)
+    }
+  }}
+
+  __init3() {this.exists = async (query) => {
+    try {
+      const result = await this.findOne(query)
+      return Promise.resolve(result != null)
+    } catch (err) {
+      return Promise.resolve(false)
+    }
+  }}
+
+  __init4() {this.store = async (object) => {
+    return this.model.create(object)
+  }}
+
+  __init5() {this.update = async (id, data) => {
+    return this.model.findByIdAndUpdate({ _id: id }, data, { new: true, omitUndefined: true })
+  }}
+
+  __init6() {this.delete = async (id) => {
+    return this.model.findByIdAndDelete(id)
+  }}
+} exports.default = BaseRepository;

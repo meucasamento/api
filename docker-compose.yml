@@ -2,7 +2,7 @@ version: "3"
 
 services:
   # API
-  api:
+  app:
     container_name: api-casamento
     build: .
     restart: always

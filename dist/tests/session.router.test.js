@@ -1,239 +1,251 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const mocha_1 = require("mocha");
-const chai_1 = require("chai");
-const supertest_1 = __importDefault(require("supertest"));
-const express_1 = __importDefault(require("express"));
-const app_1 = __importDefault(require("../app"));
-const repository_factory_v1_1 = __importDefault(require("../factories/v1/repository.factory.v1"));
-const mail_service_mock_1 = __importDefault(require("./mocks/mail.service.mock"));
-const user_model_v1_1 = __importDefault(require("./../models/v1/users/user.model.v1"));
-const encryption_1 = __importDefault(require("./../utils/encryption"));
-const server = express_1.default();
-const app = new app_1.default(server, repository_factory_v1_1.default, mail_service_mock_1.default);
-app.setup();
-function clearDatabase() {
-    return __awaiter(this, void 0, void 0, function* () {
-        yield user_model_v1_1.default.deleteMany({});
-    });
+"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mocha = require('mocha');
+var _chai = require('chai');
+var _supertest = require('supertest'); var _supertest2 = _interopRequireDefault(_supertest);
+var _express = require('express'); var _express2 = _interopRequireDefault(_express);
+
+var _app = require('../app'); var _app2 = _interopRequireDefault(_app);
+var _repositoryfactoryv1 = require('../factories/v1/repository.factory.v1'); var _repositoryfactoryv12 = _interopRequireDefault(_repositoryfactoryv1);
+var _mailservicemock = require('./mocks/mail.service.mock'); var _mailservicemock2 = _interopRequireDefault(_mailservicemock);
+var _usermodelv1 = require('./../models/v1/users/user.model.v1'); var _usermodelv12 = _interopRequireDefault(_usermodelv1);
+var _encryption = require('./../utils/encryption'); var _encryption2 = _interopRequireDefault(_encryption);
+
+const server = _express2.default.call(void 0, )
+const app = new (0, _app2.default)(server, _repositoryfactoryv12.default, _mailservicemock2.default)
+app.setup()
+
+async function clearDatabase () {
+  await _usermodelv12.default.deleteMany({})
 }
-function createSampleGuests() {
-    const people = [
-        'Adriano',
-        'Jenifer'
-    ];
-    people.forEach((name) => __awaiter(this, void 0, void 0, function* () {
-        const user = new user_model_v1_1.default({
-            name,
-            email: `${name.toLowerCase()}@gmail.com`,
-            password: yield encryption_1.default.hash('12345678')
-        });
-        user.save();
-    }));
+
+function createSampleGuests () {
+  const people = [
+    'Adriano',
+    'Jenifer'
+  ]
+
+  people.forEach(async name => {
+    const user = new (0, _usermodelv12.default)({
+      name,
+      email: `${name.toLowerCase()}@gmail.com`,
+      password: await _encryption2.default.hash('12345678')
+    })
+    user.save()
+  })
 }
-mocha_1.before(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield clearDatabase();
-    yield createSampleGuests();
-}));
-mocha_1.after(() => __awaiter(void 0, void 0, void 0, function* () {
-    yield clearDatabase();
-}));
-mocha_1.describe('Authentication', () => {
-    mocha_1.it('Should return token after authentication successful', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/authentication')
-            .send({
-            email: 'adriano@gmail.com',
-            password: '12345678'
-        })
-            .expect('Content-Type', /json/)
-            .expect(200)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { token, expiresIn, password } = res.body;
-            chai_1.expect(null || undefined).to.be.not.equal(token);
-            chai_1.expect(3600).to.be.equal(expiresIn);
-            chai_1.expect(undefined).to.be.equal(password);
-        });
-    });
-    mocha_1.it('Should return status code 401 from authentication failed', (done) => {
-        supertest_1.default(server)
-            .post('/api/v1/session/authentication')
-            .send({
-            email: 'guest@gmail.com',
-            password: '123'
-        })
-            .expect(401, done);
-    });
-    mocha_1.it('Validation consistency', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/authentication')
-            .send()
-            .expect(422)
-            .expect('Content-Type', /json/)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('Deve conter um email válido');
-            chai_1.expect(errors[0].param).to.be.equal('email');
-            chai_1.expect(errors[0].location).to.be.equal('body');
-            chai_1.expect(errors[1].msg).to.be.equal('O campo password é obrigatório');
-            chai_1.expect(errors[1].param).to.be.equal('password');
-            chai_1.expect(errors[1].location).to.be.equal('body');
-        });
-    });
-});
-mocha_1.describe('Reset password', () => {
-    mocha_1.it('Must be return status code 200', (done) => {
-        supertest_1.default(server)
-            .post('/api/v1/session/reset_password')
-            .send({
-            email: 'adriano@gmail.com'
-        })
-            .expect(200, done);
-    });
-    mocha_1.it('Email must be not empty', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/reset_password')
-            .expect(422)
-            .expect('Content-Type', /json/)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('Deve conter um email válido');
-            chai_1.expect(errors[0].param).to.be.equal('email');
-        });
-    });
-    mocha_1.it('Required valid email', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/reset_password')
-            .send({
-            email: 'guest.com.br'
-        })
-            .expect(422)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('Deve conter um email válido');
-            chai_1.expect(errors[0].param).to.be.equal('email');
-        });
-    });
-    mocha_1.it('Validation when not exists user with email', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/reset_password')
-            .send({
-            email: 'adriano_fake@gmail.com.br'
-        })
-            .expect(422)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('Não existe nenhum usuário com esse email');
-            chai_1.expect(errors[0].param).to.be.equal('email');
-        });
-    });
-});
-mocha_1.describe('Session register', () => {
-    mocha_1.it('Return user infos after user store successful', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/register')
-            .send({
-            name: 'User Test',
-            email: 'new_user_test@gmail.com',
-            password: '12345678'
-        })
-            .expect(200)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { name, email, password } = res.body;
-            chai_1.expect(name).to.be.equal('User Test');
-            chai_1.expect(email).to.be.equal('new_user_test@gmail.com');
-            chai_1.expect(password).to.be.equal(undefined);
-        });
-    });
-    mocha_1.it('Validation consistency', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/register')
-            .expect(422)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('O campo nome é obrigatório');
-            chai_1.expect(errors[0].param).to.be.equal('name');
-            chai_1.expect(errors[0].location).to.be.equal('body');
-            chai_1.expect(errors[1].msg).to.be.equal('Deve conter um email válido');
-            chai_1.expect(errors[1].param).to.be.equal('email');
-            chai_1.expect(errors[1].location).to.be.equal('body');
-            chai_1.expect(errors[2].msg).to.be.equal('O campo password é obrigatório');
-            chai_1.expect(errors[2].param).to.be.equal('password');
-            chai_1.expect(errors[2].location).to.be.equal('body');
-        });
-    });
-    mocha_1.it('Required valid email', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/register')
-            .send({
-            name: 'User Test',
-            email: 'new_user_test@.com',
-            password: '12345678'
-        })
-            .expect(422)
-            .expect('Content-Type', /json/)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('Deve conter um email válido');
-            chai_1.expect(errors[0].param).to.be.equal('email');
-            chai_1.expect(errors[0].location).to.be.equal('body');
-        });
-    });
-    mocha_1.it('Should not pass up a existing email', () => {
-        supertest_1.default(server)
-            .post('/api/v1/session/register')
-            .send({
-            name: 'User Test',
-            email: 'adriano@gmail.com',
-            password: '12345678'
-        })
-            .expect(422)
-            .expect('Content-Type', /json/)
-            .end((err, res) => {
-            if (err) {
-                throw err;
-            }
-            const { errors } = res.body;
-            chai_1.expect(errors[0].msg).to.be.equal('O email já está sendo utilizado');
-            chai_1.expect(errors[0].param).to.be.equal('email');
-            chai_1.expect(errors[0].location).to.be.equal('body');
-        });
-    });
-});
-//# sourceMappingURL=session.router.test.js.map
+
+_mocha.before.call(void 0, async () => {
+  await clearDatabase()
+  await createSampleGuests()
+})
+
+_mocha.after.call(void 0, async () => {
+  await clearDatabase()
+})
+
+_mocha.describe.call(void 0, 'Authentication', () => {
+  _mocha.it.call(void 0, 'Should return token after authentication successful', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/authentication')
+      .send({
+        email: 'adriano@gmail.com',
+        password: '12345678'
+      })
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          token,
+          expiresIn,
+          password
+        } = res.body
+
+        _chai.expect.call(void 0, null || undefined).to.be.not.equal(token)
+        _chai.expect.call(void 0, 3600).to.be.equal(expiresIn)
+        _chai.expect.call(void 0, undefined).to.be.equal(password)
+      })
+  })
+
+  _mocha.it.call(void 0, 'Should return status code 401 from authentication failed', (done) => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/authentication')
+      .send({
+        email: 'guest@gmail.com',
+        password: '123'
+      })
+      .expect(401, done)
+  })
+
+  _mocha.it.call(void 0, 'Validation consistency', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/authentication')
+      .send()
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('Deve conter um email válido')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('email')
+        _chai.expect.call(void 0, errors[0].location).to.be.equal('body')
+
+        _chai.expect.call(void 0, errors[1].msg).to.be.equal('O campo password é obrigatório')
+        _chai.expect.call(void 0, errors[1].param).to.be.equal('password')
+        _chai.expect.call(void 0, errors[1].location).to.be.equal('body')
+      })
+  })
+})
+
+_mocha.describe.call(void 0, 'Reset password', () => {
+  _mocha.it.call(void 0, 'Must be return status code 200', (done) => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/reset_password')
+      .send({
+        email: 'adriano@gmail.com'
+      })
+      .expect(200, done)
+  })
+
+  _mocha.it.call(void 0, 'Email must be not empty', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/reset_password')
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('Deve conter um email válido')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('email')
+      })
+  })
+
+  _mocha.it.call(void 0, 'Required valid email', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/reset_password')
+      .send({
+        email: 'guest.com.br'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('Deve conter um email válido')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('email')
+      })
+  })
+
+  _mocha.it.call(void 0, 'Validation when not exists user with email', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/reset_password')
+      .send({
+        email: 'adriano_fake@gmail.com.br'
+      })
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('Não existe nenhum usuário com esse email')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('email')
+      })
+  })
+})
+
+_mocha.describe.call(void 0, 'Session register', () => {
+  _mocha.it.call(void 0, 'Return user infos after user store successful', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/register')
+      .send({
+        name: 'User Test',
+        email: 'new_user_test@gmail.com',
+        password: '12345678'
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const {
+          name,
+          email,
+          password
+        } = res.body
+
+        _chai.expect.call(void 0, name).to.be.equal('User Test')
+        _chai.expect.call(void 0, email).to.be.equal('new_user_test@gmail.com')
+        _chai.expect.call(void 0, password).to.be.equal(undefined)
+      })
+  })
+
+  _mocha.it.call(void 0, 'Validation consistency', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/register')
+      .expect(422)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('O campo nome é obrigatório')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('name')
+        _chai.expect.call(void 0, errors[0].location).to.be.equal('body')
+
+        _chai.expect.call(void 0, errors[1].msg).to.be.equal('Deve conter um email válido')
+        _chai.expect.call(void 0, errors[1].param).to.be.equal('email')
+        _chai.expect.call(void 0, errors[1].location).to.be.equal('body')
+
+        _chai.expect.call(void 0, errors[2].msg).to.be.equal('O campo password é obrigatório')
+        _chai.expect.call(void 0, errors[2].param).to.be.equal('password')
+        _chai.expect.call(void 0, errors[2].location).to.be.equal('body')
+      })
+  })
+
+  _mocha.it.call(void 0, 'Required valid email', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/register')
+      .send({
+        name: 'User Test',
+        email: 'new_user_test@.com',
+        password: '12345678'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('Deve conter um email válido')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('email')
+        _chai.expect.call(void 0, errors[0].location).to.be.equal('body')
+      })
+  })
+
+  _mocha.it.call(void 0, 'Should not pass up a existing email', () => {
+    _supertest2.default.call(void 0, server)
+      .post('/api/v1/session/register')
+      .send({
+        name: 'User Test',
+        email: 'adriano@gmail.com',
+        password: '12345678'
+      })
+      .expect(422)
+      .expect('Content-Type', /json/)
+      .end((err, res) => {
+        if (err) { throw err }
+
+        const { errors } = res.body
+
+        _chai.expect.call(void 0, errors[0].msg).to.be.equal('O email já está sendo utilizado')
+        _chai.expect.call(void 0, errors[0].param).to.be.equal('email')
+        _chai.expect.call(void 0, errors[0].location).to.be.equal('body')
+      })
+  })
+})

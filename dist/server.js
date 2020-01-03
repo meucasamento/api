@@ -1,17 +1,15 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const app_1 = __importDefault(require("./app"));
-const env_1 = __importDefault(require("./config/env"));
-const mailgun_service_1 = __importDefault(require("./utils/components/mail/mailgun.service"));
-const repository_factory_v1_1 = __importDefault(require("./factories/v1/repository.factory.v1"));
-const server = express_1.default();
-const app = new app_1.default(server, repository_factory_v1_1.default, mailgun_service_1.default);
-app.setup();
-server.listen(env_1.default.port, () => {
-    console.log(`App listening on the port ${env_1.default.port}`);
-});
-//# sourceMappingURL=server.js.map
+"use strict"; function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _express = require('express'); var _express2 = _interopRequireDefault(_express);
+
+var _app = require('./app'); var _app2 = _interopRequireDefault(_app);
+var _env = require('./config/env'); var _env2 = _interopRequireDefault(_env);
+var _mailgunservice = require('./utils/components/mail/mailgun.service'); var _mailgunservice2 = _interopRequireDefault(_mailgunservice);
+var _repositoryfactoryv1 = require('./factories/v1/repository.factory.v1'); var _repositoryfactoryv12 = _interopRequireDefault(_repositoryfactoryv1);
+
+const server = _express2.default.call(void 0, )
+
+const app = new (0, _app2.default)(server, _repositoryfactoryv12.default, _mailgunservice2.default)
+app.setup()
+
+server.listen(_env2.default.port, () => {
+  console.log(`App listening on the port ${_env2.default.port}`)
+})

@@ -1,73 +1,68 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const tokenManager_1 = __importDefault(require("../../utils/components/tokenManager"));
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var _tokenManager = require('../../utils/components/tokenManager'); var _tokenManager2 = _interopRequireDefault(_tokenManager);
+
 class UserController {
-    constructor(repository) {
-        this.index = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const data = req.body;
-            const page = parseInt(req.query.page);
-            const limit = parseInt(req.query.limit);
-            try {
-                const users = yield this.repository.find(data, page, limit);
-                return res.send(users);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-        this.findOne = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            try {
-                const user = yield this.repository.findOne({ _id: id });
-                return res.send(user);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-        this.update = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const token = req.headers.authorization;
-            const { name, email } = req.body;
-            try {
-                const { _id } = yield tokenManager_1.default.verify(token);
-                const userUpdated = yield this.repository.update(_id, { name, email });
-                const newToken = tokenManager_1.default.signUser(_id);
-                return res.send({
-                    user: userUpdated,
-                    token: newToken
-                });
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-        this.changePassword = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
-            const token = req.headers.authorization;
-            const { newPassword } = req.body;
-            try {
-                const { _id } = tokenManager_1.default.verify(token);
-                yield this.repository.changePassword(_id, newPassword);
-                const updatedToken = yield tokenManager_1.default.signUser(_id);
-                return res.send(updatedToken);
-            }
-            catch (error) {
-                next(error);
-            }
-        });
-        this.repository = repository;
+  
+
+  constructor (repository) {;UserController.prototype.__init.call(this);UserController.prototype.__init2.call(this);UserController.prototype.__init3.call(this);UserController.prototype.__init4.call(this);
+    this.repository = repository
+  }
+
+  __init() {this.index = async (req, res, next) => {
+    const data = req.body
+    const page = parseInt(req.query.page)
+    const limit = parseInt(req.query.limit)
+
+    try {
+      const users = await this.repository.find(data, page, limit)
+      return res.send(users)
+    } catch (error) {
+      next(error)
     }
+  }}
+
+  __init2() {this.findOne = async (req, res, next) => {
+    const { id } = req.params
+
+    try {
+      const user = await this.repository.findOne({ _id: id })
+      return res.send(user)
+    } catch (error) {
+      next(error)
+    }
+  }}
+
+  __init3() {this.update = async (req, res, next) => {
+    const token = req.headers.authorization
+    const { name, email } = req.body
+
+    try {
+      const { _id } = await _tokenManager2.default.verify(token)
+      const userUpdated = await this.repository.update(_id, { name, email })
+      const newToken = _tokenManager2.default.signUser(_id)
+      return res.send({
+        user: userUpdated,
+        token: newToken
+      })
+    } catch (error) {
+      next(error)
+    }
+  }}
+
+  __init4() {this.changePassword = async (req, res, next) => {
+    const token = req.headers.authorization
+    const { newPassword } = req.body
+
+    try {
+      const { _id } = _tokenManager2.default.verify(token)
+      await this.repository.changePassword(_id, newPassword)
+      const updatedToken = await _tokenManager2.default.signUser(_id)
+      return res.send(updatedToken)
+    } catch (error) {
+      next(error)
+    }
+  }}
 }
-exports.default = UserController;
-//# sourceMappingURL=user.controller.v1.js.map
+
+exports. default = UserController

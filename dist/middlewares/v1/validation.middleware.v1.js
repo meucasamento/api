@@ -1,24 +1,21 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const class_validator_1 = require("class-validator");
-const class_transformer_1 = require("class-transformer");
-const error_exception_1 = __importDefault(require("./../../exceptions/error.exception"));
-function validationMiddleware(type, skipMissingProperties = false) {
-    return (req, res, next) => {
-        class_validator_1.validate(class_transformer_1.plainToClass(type, req.body), { skipMissingProperties })
-            .then((errors) => {
-            if (errors.length > 0) {
-                const message = errors.map((error) => Object.values(error.constraints)).join(', ');
-                next(new error_exception_1.default(message, 400));
-            }
-            else {
-                next();
-            }
-        });
-    };
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var _classvalidator = require('class-validator');
+var _classtransformer = require('class-transformer');
+
+var _errorexception = require('./../../exceptions/error.exception'); var _errorexception2 = _interopRequireDefault(_errorexception);
+
+function validationMiddleware (type, skipMissingProperties = false) {
+  return (req, res, next) => {
+    _classvalidator.validate.call(void 0, _classtransformer.plainToClass.call(void 0, type, req.body), { skipMissingProperties })
+      .then((errors) => {
+        if (errors.length > 0) {
+          const message = errors.map((error) => Object.values(error.constraints)).join(', ')
+          next(new (0, _errorexception2.default)(message, 400))
+        } else {
+          next()
+        }
+      })
+  }
 }
-exports.default = validationMiddleware;
-//# sourceMappingURL=validation.middleware.v1.js.map
+
+exports. default = validationMiddleware

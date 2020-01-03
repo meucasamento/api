@@ -1,34 +1,22 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const baseRepository_1 = __importDefault(require("./../base/baseRepository"));
-const guest_model_v1_1 = __importDefault(require("./../../models/v1/guests/guest.model.v1"));
-class GuestRepository extends baseRepository_1.default {
-    constructor() {
-        super(guest_model_v1_1.default);
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+
+var _baseRepository = require('./../base/baseRepository'); var _baseRepository2 = _interopRequireDefault(_baseRepository);
+var _guestmodelv1 = require('./../../models/v1/guests/guest.model.v1'); var _guestmodelv12 = _interopRequireDefault(_guestmodelv1);
+
+class GuestRepository extends _baseRepository2.default {
+  constructor () {
+    super(_guestmodelv12.default)
+  }
+
+  async invitation (id, status) {
+    try {
+      const guest = await this.update(id, { invitationDelivered: status })
+      return Promise.resolve(guest)
+    } catch (err) {
+      return Promise.reject(err)
     }
-    invitation(id, status) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const guest = yield this.update(id, { invitationDelivered: status });
-                return Promise.resolve(guest);
-            }
-            catch (err) {
-                return Promise.reject(err);
-            }
-        });
-    }
+  }
 }
-exports.default = new GuestRepository();
-//# sourceMappingURL=guestRepository.js.map
+
+exports. default = new GuestRepository()

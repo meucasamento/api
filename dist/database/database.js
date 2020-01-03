@@ -1,37 +1,37 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const mongoose_1 = __importDefault(require("mongoose"));
-const env_1 = __importDefault(require("./../config/env"));
+"use strict";Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _mongoose = require('mongoose'); var _mongoose2 = _interopRequireDefault(_mongoose);
+var _env = require('./../config/env'); var _env2 = _interopRequireDefault(_env);
+
 class Database {
-    setup() {
-        const uri = env_1.default.mongodbURI;
-        mongoose_1.default.set('useCreateIndex', true);
-        mongoose_1.default.set('useFindAndModify', false);
-        mongoose_1.default.connect(uri, {
-            useUnifiedTopology: true,
-            useNewUrlParser: true
-        });
-        mongoose_1.default.connection.on('error', (err) => {
-            console.log('Erro: ', err);
-        });
-        mongoose_1.default.connection.on('connected', () => {
-            if (process.env.NODE_ENV === 'test') {
-                return;
-            }
-            console.log(`Conectado a ${uri}`);
-        });
-        mongoose_1.default.connection.on('disconnected', () => {
-            console.log(`Desconetado de ${uri}`);
-        });
-        process.on('SIGINT', () => {
-            mongoose_1.default.connection.close(() => {
-                process.exit(0);
-            });
-        });
-    }
+  setup () {
+    const uri = _env2.default.mongodbURI
+
+    _mongoose2.default.set('useCreateIndex', true)
+    _mongoose2.default.set('useFindAndModify', false)
+
+    _mongoose2.default.connect(uri, {
+      useUnifiedTopology: true,
+      useNewUrlParser: true
+    })
+
+    _mongoose2.default.connection.on('error', (err) => {
+      console.log('Erro: ', err)
+    })
+
+    _mongoose2.default.connection.on('connected', () => {
+      if (process.env.NODE_ENV === 'test') { return }
+      console.log(`Conectado a ${uri}`)
+    })
+
+    _mongoose2.default.connection.on('disconnected', () => {
+      console.log(`Desconetado de ${uri}`)
+    })
+
+    process.on('SIGINT', () => {
+      _mongoose2.default.connection.close(() => {
+        process.exit(0)
+      })
+    })
+  }
 }
-exports.default = new Database();
-//# sourceMappingURL=database.js.map
+
+exports. default = new Database()
