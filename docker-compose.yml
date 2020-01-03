@@ -3,23 +3,22 @@ version: "3"
 services:
   # API
   app:
-    container_name: api-casamento
+    container_name: api_casamento
     build: .
-    restart: always
     volumes:
       - .:/app
-      - /app/node_modules/
     ports:
       - "3333:3333"
     environment:
       - PORT=3333
     depends_on: 
       - mongodb
+    command: yarn dev
 
   # DATABASE
   mongodb:
     image: mongo
-    container_name: api-mongodb
+    container_name: api_mongodb
     volumes:
       - ./dockervolume:/data/db
     ports:
