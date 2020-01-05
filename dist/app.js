@@ -7,7 +7,7 @@ class App {
    constructor () {;App.prototype.__init.call(this);
     this.express = _express2.default.call(void 0, )
     this.routes.get('/users', (req, res) => {
-      res.json({ name: 'teste' })
+      res.json({ name: 'Adriano Souza Costa' })
     })
     this.express.use(this.routes)
     this.express.use(_express2.default.json())

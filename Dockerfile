@@ -1,9 +1,8 @@
 FROM node:alpine
 
-USER nobody
-
+RUN mkdir -p /app
 WORKDIR /app
 
-COPY ./src ./app
+COPY . /app
 
 EXPOSE 3333
