@@ -4,16 +4,12 @@ import UserRepositoryInterface from './../../repositories/users/userRepository.i
 import TokenManager from '../../utils/components/tokenManager'
 import UserInterface from '../../models/v1/users/user.interface.v1'
 import Encryption from './../../utils/encryption'
-import MailServiceInterface from '../../utils/components/mail/mail.service.interface'
 
 class SessionController {
   private userRepository: UserRepositoryInterface
-  private mailService: MailServiceInterface
 
-  constructor (userRepository: UserRepositoryInterface,
-    mailService: MailServiceInterface) {
+  constructor (userRepository: UserRepositoryInterface) {
     this.userRepository = userRepository
-    this.mailService = mailService
   }
 
   register = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
@@ -68,9 +64,6 @@ class SessionController {
       const encryptedPassword = await Encryption.hash(randomString)
       const { id } = await this.userRepository.findOne({ email })
       await this.userRepository.update(id, { password: encryptedPassword })
-      await this.mailService.send(email,
-        'Reset de senha',
-        `Sua senha foi resetada com sucesso, para acesso temporário você deve usar a senha temporária: <strong>${randomString}</strong>.`)
       return res.send()
     } catch (error) {
       next(error)

@@ -2,14 +2,12 @@ import RouterInterface from './../router.interface'
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
 import SessionController from './../../controllers/v1/session.controller.v1'
 import SessionValidator from './../../validators/v1/session.validator.v1'
-import MailServiceInterface from '../../utils/components/mail/mail.service.interface'
 
 class SessionRouter extends RouterInterface {
     private controller: SessionController
     private validator: SessionValidator
 
-    constructor (repository: UserRepositoryInterface,
-      mailService: MailServiceInterface) {
+    constructor (repository: UserRepositoryInterface) {
       super()
       this.controller = new SessionController(repository, mailService)
       this.validator = new SessionValidator(repository)
