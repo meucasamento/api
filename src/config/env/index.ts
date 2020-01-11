@@ -24,9 +24,7 @@ class Config implements ConfigInterface {
   }
 
   private setupEnvironments (): void {
-    dotenv.config()
-    const sulfix = process.env.NODE_ENV
-    dotenv.config({ path: `${__dirname}/../../../.env.${sulfix}` })
+    dotenv.config({ path: `${__dirname}/../../../.env` })
   }
 }
 
