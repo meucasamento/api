@@ -7,7 +7,7 @@
     "test": "NODE_ENV=test mocha -r ts-node/register src/tests/*.test.ts",
     "dev": "NODE_ENV=development nodemon ts-node ./src/server.ts",
     "build": "rm -rf dist && sucrase ./src -d ./dist --transforms typescript,imports",
-    "start": "yarn build && node dist/server.js"
+    "start": "NODE_ENV=production yarn build && node dist/server.js"
   },
   "dependencies": {
     "@types/bcrypt": "^3.0.0",
