@@ -9,7 +9,7 @@ class SessionRouter extends RouterInterface {
 
     constructor (repository: UserRepositoryInterface) {
       super()
-      this.controller = new SessionController(repository, mailService)
+      this.controller = new SessionController(repository)
       this.validator = new SessionValidator(repository)
       this.setup()
     }

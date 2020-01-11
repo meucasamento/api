@@ -8,16 +8,14 @@ import RepositoryFactoryInteface from './factories/v1/repository.factory.interfa
 import RoutesV1 from './routes/v1/router.v1'
 import ErrorMiddleware from './middlewares/v1/error.middleware.v1'
 import RouterInterface from './routes/router.interface'
-import MailServiceInterface from './utils/components/mail/mail.service.interface'
 
 class App {
   public express: express.Application
   private routerV1: RouterInterface
 
-  constructor (repositoryFactory: RepositoryFactoryInteface,
-    emailService: MailServiceInterface) {
+  constructor (repositoryFactory: RepositoryFactoryInteface) {
     this.express = express()
-    this.routerV1 = new RoutesV1(repositoryFactory, emailService)
+    this.routerV1 = new RoutesV1(repositoryFactory)
     Database.setup()
     this.middlewares()
     this.routes()
