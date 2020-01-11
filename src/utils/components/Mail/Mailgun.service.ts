@@ -1,6 +1,6 @@
 import Mailgun from 'mailgun-js'
 import MailServiceInterface from './mail.service.interface'
-import Config from './../../../config/env'
+import Config from '../../../config/env'
 
 class MailgunService implements MailServiceInterface {
   async send (email: string, subject?: string, body?: string): Promise<void> {

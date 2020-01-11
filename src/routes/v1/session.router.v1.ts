@@ -2,7 +2,7 @@ import RouterInterface from './../router.interface'
 import UserRepositoryInterface from './../../repositories/users/userRepository.interface'
 import SessionController from './../../controllers/v1/session.controller.v1'
 import SessionValidator from './../../validators/v1/session.validator.v1'
-import MailServiceInterface from './../../utils/components/mail/mail.service.interface'
+import MailServiceInterface from '../../utils/components/mail/mail.service.interface'
 
 class SessionRouter extends RouterInterface {
     private controller: SessionController
