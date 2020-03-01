@@ -10,11 +10,12 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
     this.model = model
   }
 
-  find = async (query?: object, page?: number, limit?: number, populate?: object | string): Promise<PaginateResultInterface<T>> => {
+  find = async (query?: object, page?: number, limit?: number, populate?: object | string, sort?: object | string): Promise<PaginateResultInterface<T>> => {
     const options = {
       page: page || 1,
       limit: limit || 10,
-      populate: populate
+      populate: populate,
+      sort: sort
     }
 
     try {

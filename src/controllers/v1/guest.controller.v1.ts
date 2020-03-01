@@ -13,9 +13,13 @@ class GuestController {
     const data = req.body
     const page = parseInt(req.query.page)
     const limit = parseInt(req.query.limit)
+    const sort = { 
+      name: "asc", 
+      isGodfather: -1
+    }
 
     try {
-      const guests = await this.repository.find(data, page, limit)
+      const guests = await this.repository.find(data, page, limit, sort)
       return res.send(guests)
     } catch (error) {
       next(error)
