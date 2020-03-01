@@ -18,7 +18,7 @@ class GuestController {
     }
 
     try {
-      const guests = await this.repository.find(data, page, limit, sort)
+      const guests = await this.repository.find(data, page, limit)
       return res.send(guests)
     } catch (error) {
       next(error)
