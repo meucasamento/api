@@ -22,22 +22,6 @@ class GuestController {
     }
   }
 
-  findOne = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { id } = req.params
-
-    try {
-      const guest = await this.repository.findOne({ _id: id })
-
-      if (!guest) {
-        return res.status(404).send()
-      }
-
-      return res.send(guest)
-    } catch (error) {
-      next(error)
-    }
-  }
-
   store = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const {
       name,
@@ -102,39 +86,6 @@ class GuestController {
     }
   }
 
-  invitation = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { id } = req.params
-    const { status } = req.body
-
-    try {
-      const guest = await this.repository.invitation(id, status)
-
-      if (!guest) {
-        return res.status(404).send()
-      }
-
-      return res.send(guest)
-    } catch (error) {
-      next(error)
-    }
-  }
-
-  active = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const { id } = req.params
-    const { status } = req.body
-
-    try {
-      const guest = await this.repository.update(id, { isActive: status })
-
-      if (!guest) {
-        return res.status(404).send()
-      }
-
-      return res.send(guest)
-    } catch (error) {
-      next(error)
-    }
-  }
 }
 
 export default GuestController
