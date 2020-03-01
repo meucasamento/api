@@ -18,6 +18,8 @@ export default class BaseRepository<T extends Document> implements ReadRepositor
       sort: sort
     }
 
+    console.log(sort)
+
     try {
       const { docs, totalDocs, limit, totalPages, page } = await this.model.paginate(query, options)
       const result = {

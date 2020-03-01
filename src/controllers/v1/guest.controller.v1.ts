@@ -10,15 +10,16 @@ class GuestController {
   }
 
   index = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const data = req.body
+    const query = req.body
     const page = parseInt(req.query.page)
     const limit = parseInt(req.query.limit)
-    const sort = { 
+    const sort = {
+      isGodfather: -1, 
       name: "asc"
     }
 
     try {
-      const guests = await this.repository.find(data, page, limit)
+      const guests = await this.repository.find(query, page, limit, undefined, sort)
       return res.send(guests)
     } catch (error) {
       next(error)
