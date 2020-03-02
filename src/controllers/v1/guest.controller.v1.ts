@@ -33,7 +33,9 @@ class GuestController {
       email,
       isActive,
       invitationDelivered,
-      isGodfather
+      isGodfather,
+      isFamily,
+      peopleCount
     } = req.body
 
     const guest = {
@@ -42,7 +44,9 @@ class GuestController {
       email,
       isActive,
       invitationDelivered,
-      isGodfather
+      isGodfather,
+      isFamily,
+      peopleCount
     } as GuestInterface
 
     try {
@@ -61,7 +65,9 @@ class GuestController {
       email,
       isActive,
       invitationDelivered,
-      isGodfather
+      isGodfather,
+      isFamily,
+      peopleCount
     } = req.body
 
     try {
@@ -71,7 +77,9 @@ class GuestController {
         email,
         isActive,
         invitationDelivered,
-        isGodfather
+        isGodfather,
+        isFamily,
+        peopleCount
       } as GuestInterface)
       return res.send(guestUpdated)
     } catch (error) {
