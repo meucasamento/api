@@ -8,15 +8,6 @@ class GuestRepository extends BaseRepository<GuestInterface & Document> implemen
   constructor () {
     super(GuestModel)
   }
-
-  async invitation (id: string, status: boolean): Promise<GuestInterface> {
-    try {
-      const guest = await this.update(id, { invitationDelivered: status })
-      return Promise.resolve(guest)
-    } catch (err) {
-      return Promise.reject(err)
-    }
-  }
 }
 
 export default new GuestRepository()
