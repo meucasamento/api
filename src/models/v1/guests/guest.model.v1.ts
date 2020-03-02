@@ -22,7 +22,7 @@ const GuestScheme = new Schema({
     type: Boolean,
     default: true
   },
-  isFamily: {
+  includeFamily: {
     type: Boolean,
     default: false
   },

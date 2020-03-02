@@ -10,6 +10,6 @@ export default interface GuestInterface extends Document {
     isActive?: boolean
     invitationDelivered?: boolean
     isGodfather?: boolean
-    isFamily?: boolean
+    includeFamily?: boolean
     peopleCount?: number
 }

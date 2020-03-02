@@ -27,27 +27,7 @@ class GuestController {
   }
 
   store = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
-    const {
-      name,
-      phone,
-      email,
-      isActive,
-      invitationDelivered,
-      isGodfather,
-      isFamily,
-      peopleCount
-    } = req.body
-
-    const guest = {
-      name,
-      phone,
-      email,
-      isActive,
-      invitationDelivered,
-      isGodfather,
-      isFamily,
-      peopleCount
-    } as GuestInterface
+    const guest = req.body as GuestInterface
 
     try {
       const newGuest = await this.repository.store(guest)
@@ -59,28 +39,10 @@ class GuestController {
 
   update = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const { id } = req.params
-    const {
-      name,
-      phone,
-      email,
-      isActive,
-      invitationDelivered,
-      isGodfather,
-      isFamily,
-      peopleCount
-    } = req.body
+    const updatedGuest = req.body as GuestInterface
 
     try {
-      const guestUpdated = await this.repository.update(id, {
-        name,
-        phone,
-        email,
-        isActive,
-        invitationDelivered,
-        isGodfather,
-        isFamily,
-        peopleCount
-      } as GuestInterface)
+      const guestUpdated = await this.repository.update(id, updatedGuest)
       return res.send(guestUpdated)
     } catch (error) {
       next(error)
