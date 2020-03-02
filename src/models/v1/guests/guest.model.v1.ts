@@ -21,6 +21,14 @@ const GuestScheme = new Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  isFamily: {
+    type: Boolean,
+    default: false
+  },
+  peopleCount: {
+    type: Number,
+    default: 1
   }
 }, {
   timestamps: true
