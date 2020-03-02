@@ -26,6 +26,9 @@ class GuestValidator extends RequestValidator {
     check('isGodfather')
       .optional()
       .isBoolean(),
+    check('isFamily')
+      .optional()
+      .isBoolean(),
     check('email')
       .optional()
       .isEmail().bail().withMessage('Deve conter um email válido')
@@ -55,6 +58,9 @@ class GuestValidator extends RequestValidator {
       .optional()
       .isBoolean(),
     check('isGodfather')
+      .optional()
+      .isBoolean(),
+    check('isFamily')
       .optional()
       .isBoolean(),
     check('email')
