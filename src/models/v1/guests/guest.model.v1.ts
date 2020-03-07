@@ -29,7 +29,12 @@ const GuestScheme = new Schema({
   peopleCount: {
     type: Number,
     default: 1
-  }
+  },
+  hasCompanion: {
+    type: Boolean,
+    default: false
+  },
+  companion: String
 }, {
   timestamps: true
 })
