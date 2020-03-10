@@ -18,7 +18,7 @@ const GuestScheme = new Schema({
     type: Boolean,
     default: false
   },
-  godfatherOf: String,
+  guestOf: String,
   isActive: {
     type: Boolean,
     default: true
