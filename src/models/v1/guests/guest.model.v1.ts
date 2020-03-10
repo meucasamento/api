@@ -19,7 +19,7 @@ const GuestScheme = new Schema({
     default: false
   },
   godfatherOf: {
-    enum: ['adriano', 'jenifer', null]
+    type: String
   },
   isActive: {
     type: Boolean,
