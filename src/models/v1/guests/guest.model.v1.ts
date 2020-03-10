@@ -5,8 +5,7 @@ import mongoosePaginate from 'mongoose-paginate-v2'
 const GuestScheme = new Schema({
   name: {
     type: String,
-    required: true,
-    unique: true
+    required: true
   },
   phone: String,
   email: String,
