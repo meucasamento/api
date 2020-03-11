@@ -15,6 +15,7 @@ class GuestController {
     const limit = parseInt(req.query.limit)
     const sort = {
       isGodfather: -1,
+      guestOf: "desc",
       name: "asc"
     }
 
