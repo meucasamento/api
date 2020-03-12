@@ -39,6 +39,20 @@ const GuestScheme = new Schema({
   timestamps: true
 })
 
+GuestScheme.virtual('peopleCountTotal').get(function (this: { includeFamily: Boolean, peopleCount: number, hasCompanion: Boolean }) {
+  let total = 1
+
+  if (this.includeFamily) {
+    total += this.peopleCount
+  }
+
+  if (this.hasCompanion) {
+    total += 1
+  }
+
+  return total
+})
+
 GuestScheme.plugin(mongoosePaginate)
 
 const GuestModel = model<GuestInterface>('Guest', GuestScheme) as PaginateModel<GuestInterface>
