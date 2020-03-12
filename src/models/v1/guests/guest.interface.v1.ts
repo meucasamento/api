@@ -12,6 +12,5 @@ export default interface GuestInterface extends Document {
     isGodfather?: boolean
     includeFamily?: boolean
     peopleCount?: number
-    peopleCountTotal?: number
     guestOf?: string
 }

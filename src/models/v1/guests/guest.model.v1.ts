@@ -36,7 +36,9 @@ const GuestScheme = new Schema({
   },
   companion: String
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 })
 
 GuestScheme.virtual('peopleCountTotal').get(function (this: { includeFamily: Boolean, peopleCount: number, hasCompanion: Boolean }) {
