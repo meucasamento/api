@@ -11,6 +11,7 @@ export default interface ReportInterface {
     },
     invitations: {
         delivered: number,
-        undelivered: number
+        undelivered: number,
+        total: number
     }
 }

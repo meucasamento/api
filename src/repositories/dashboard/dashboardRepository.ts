@@ -8,6 +8,8 @@ class DashboardRepository implements DashboardRepositoryInterface {
       const guests = await GuestModel.find()
       const engagedGuests = guests.filter(guest => guest.guestOf === "adriano")
       const fianceeGuests = guests.filter(guest => guest.guestOf === "jenifer")
+      const totalEngagedGuests = engagedGuests.reduce((prev, guest) => prev + (guest.peopleCount ?? 0), 0)
+      const totalFianceeGuests = fianceeGuests.reduce((prev, guest) => prev + (guest.peopleCount ?? 0), 0)
 
       const engagedGodfathers = engagedGuests.filter(guest => guest.isGodfather).length
       const fianceeGodfathers = fianceeGuests.filter(guest => guest.isGodfather).length
@@ -17,9 +19,9 @@ class DashboardRepository implements DashboardRepositoryInterface {
 
       const report = {
         guests: {
-          engaged: engagedGuests.length,
-          fiancee: fianceeGuests.length,
-          total: guests.length
+          engaged: totalEngagedGuests,
+          fiancee: totalFianceeGuests,
+          total: totalEngagedGuests + totalFianceeGuests
         },
         godfathers: {
             engaged: engagedGodfathers,
@@ -28,7 +30,8 @@ class DashboardRepository implements DashboardRepositoryInterface {
         },
         invitations: {
             delivered,
-            undelivered
+            undelivered,
+            total: delivered + undelivered
         }
       }
 
