@@ -18,6 +18,7 @@ class GuestRouter extends RouterInterface {
   private setup = (): void => {
     this.router.use('/guests', Auth.checkToken)
     this.router.get('/guests', this.controller.index)
+    this.router.get('/guests/exists', this.controller.exists)
     this.router.post('/guests', this.validator.store, this.validator.validate, this.controller.store)
     this.router.patch('/guests/:id', this.validator.update, this.validator.validate, this.controller.update)
     this.router.delete('/guests/:id', this.controller.delete)

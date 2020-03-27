@@ -61,6 +61,12 @@ class GuestController {
     }
   }
 
+  exists = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
+    const { name } = req.query
+    const exists = await this.repository.exists({name})
+    res.send({ exists })
+  }
+
 }
 
 export default GuestController
